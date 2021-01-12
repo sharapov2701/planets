@@ -1,6 +1,5 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
-ctx.save()
 
 const radToDeg = rad => (rad * 180) / Math.PI
 const degToRad = deg => (deg * Math.PI) / 180
@@ -46,7 +45,7 @@ class Sprite {
         this.isSpace = isSpace
     }
 
-    render() {
+    prepareCtx() {
         ctx.setTransform(
             this.scale,
             this.skewY,
@@ -56,9 +55,19 @@ class Sprite {
             this.y
         )
         ctx.rotate(this.degree)
-        ctx.drawImage(this.img, (-this.width / this.scale) / 2, (-this.height / this.scale) / 2)
+    }
+
+    clearCtx() {
         ctx.setTransform(1, 0, 0, 1, 0, 0)
-        this.generatePath()
+    }
+
+    render() {
+        this.prepareCtx()
+        ctx.drawImage(this.img, (-this.width / this.scale) / 2, (-this.height / this.scale) / 2)
+        if (!this.isSpace) {
+            this.generatePath()
+        }
+        this.clearCtx()
     }
 
     goTo(point) {
@@ -79,11 +88,18 @@ class Sprite {
             return
         }
         const path = new Path2D()
-        ctx.fillStyle = 'red'
-        path.rect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
+        ctx.fillStyle = 'transparent'
+        path.rect(-(this.width / this.scale) / 2, -(this.height / this.scale) / 2, this.width / this.scale, this.height / this.scale)
         ctx.fill(path)
         this.path = path
-        render()
+    }
+
+    isPointInPath(point) {
+        const { x, y } = point
+        this.prepareCtx()
+        const result = ctx.isPointInPath(this.path, x, y)
+        this.clearCtx()
+        return result
     }
 }
 
@@ -94,13 +110,17 @@ class Starship extends Sprite {
     }
 
     move() {
-        if (!this.target) {
+        if (!this._target) {
             return
         }
-        this.rotateTo(this.target)
+        this.rotateTo(this._target)
         const startPoint = { x: this.x, y: this.y }
-        const newPoint = getNewPoint(startPoint, this.target, this.speed)
+        const newPoint = getNewPoint(startPoint, this._target, this.speed)
         this.goTo(newPoint)
+    }
+
+    set target(planet) {
+        this._target = { x: planet.x, y: planet.y }
     }
 }
 
@@ -116,15 +136,14 @@ spaceImg.src = 'space.jpg'
 const main = () => {
     const space = new Sprite({ img: spaceImg, x: window.innerWidth / 2, y: window.innerHeight / 2, isSpace: true })
     const starship = new Starship({ img: starshipImg, x: 150, y: 200, speed: 100, scale: 0.2 })
-    const starship2 = new Starship({ img: starshipImg, x: 450, y: 200, speed: 100, scale: 0.2 })
     const planet = new Sprite({ img: planetImg, x: 1000, y: 500, scale: 0.1 })
-    render([space, planet, starship, starship2])
+    render([space, planet, starship])
     window.onresize = () => render
-    starship.rotateTo({ x: 1000, y: 1000 })
     canvas.onclick = e => {
-        console.log(ctx.isPointInPath(starship.path, e.offsetX, e.offsetY))
-        // starship2.target = { x: e.clientX, y: e.clientY }
-        // starship2.move()
+        if (planet.isPointInPath({ x: e.clientX, y: e.clientY })) {
+            starship.target = planet
+            starship.move()
+        }
     }
 }
 
