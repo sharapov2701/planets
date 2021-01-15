@@ -1,0 +1,6 @@
+.canvas {
+    display: block;
+    background: url(../../img/space.jpg) center center no-repeat;
+    width: 100%;
+    height: 100%;
+}
