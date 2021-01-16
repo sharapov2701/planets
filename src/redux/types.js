@@ -1,0 +1,3 @@
+export const SET_TOTAL_CLICKS_COUNT = 'SET_TOTAL_CLICKS_COUNT'
+export const SET_COORDS = 'SET_COORDS'
+export const SET_TARGET = 'SET_TARGET'

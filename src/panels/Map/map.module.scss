@@ -1,4 +1,8 @@
 .canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
     display: block;
     background: url(../../img/space.jpg) center center no-repeat;
     width: 100%;

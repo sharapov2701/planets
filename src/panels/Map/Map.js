@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
@@ -7,11 +6,18 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div'
 import { render } from '../../engine/canvas'
 import Sprite from '../../engine/Sprite'
 import Starship from '../../engine/Starship'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { setTarget } from '../../redux/actions'
+
 import starshipImage from '../../img/starship.png'
 import planetImage from '../../img/planet.png'
-import styles from './map.module.css'
+import styles from './map.module.scss'
 
-const Home = ({ id, go }) => {
+const Map = ({ id, go }) => {
+	const dispatch = useDispatch()
+	const currentLocation = useSelector(state => state.currentStarship.coords)
+	const target = useSelector(state => state.currentStarship.target)
 	const startPoint = { x: 0, y: 0 }
 	const canvas = useRef()
 	const ctx = useRef()
@@ -45,7 +51,6 @@ const Home = ({ id, go }) => {
 				x: 500,
 				y: 500
 			},
-			speed: 100,
 			scale: 0.2,
 			zoom: zoom.current,
 			zoomShift: zoomShift.current,
@@ -83,6 +88,11 @@ const Home = ({ id, go }) => {
 		sprites.current = [...planets.current, ...starships.current]
 		render(ctx.current, canvas.current, sprites.current, zoom.current, zoomShift.current, moveShift.current)
 	}, [])
+
+	useEffect(() => {
+		starship.current.goTo(currentLocation)
+		starship.current.target = target
+	})
 
 	// window.onmousedown = window.ontouchstart
 	const onMouseDown = e => {
@@ -124,7 +134,7 @@ const Home = ({ id, go }) => {
 
 	const onWheel = e => {
 		e.persist()
-		if ((zoom.current> 0.2 && e.deltaY === 100) || e.deltaY === -100) {
+		if ((zoom.current > 0.2 && e.deltaY >= 0) || e.deltaY < 0) {
 			zoom.current = (zoom.current - e.deltaY / 1000).toFixed(1)
 			zoomShift.current = {
 				x: ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) / zoom.current - ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) - (zoomShiftOnMove.current.x - zoomShift.current.x),
@@ -140,12 +150,11 @@ const Home = ({ id, go }) => {
 
 	const onClick = e => {
 		e.persist()
-		planets.current.forEach(planet => {
-			if (planet.isPointInPath({ x: e.pageX - canvas.current.offsetLeft, y: e.pageY - canvas.current.offsetTop })) {
-				starship.current.target = planet
-				starship.current.move()
-			}
-		})
+		const coords = {
+			x: (e.pageX - canvas.current.offsetLeft) / zoom.current - zoomShift.current.x - moveShift.current.x,
+			y: (e.pageY - canvas.current.offsetTop) / zoom.current - zoomShift.current.y - moveShift.current.y
+		}
+		dispatch(setTarget(coords))
 	}
 
 	return (
@@ -178,9 +187,4 @@ const Home = ({ id, go }) => {
 	)
 }
 
-Home.propTypes = {
-	id: PropTypes.string.isRequired,
-	go: PropTypes.func.isRequired,
-}
-
-export default Home
+export default Map
