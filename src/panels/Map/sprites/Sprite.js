@@ -1,18 +1,14 @@
-import { degToRad, radToDeg } from './helpers'
-
 export default class Sprite {
     constructor(data) {
-        const { img, coords, scale, ctx, render } = data
+        const { img, coords, scale, ctx } = data
         this.img = img
         this.coords = {...coords}
         this.scale = scale || 1
         this.ctx = ctx
-        this.render = render
         this.mapCoords = {...coords}
         this.mapScale = scale
         this.skewX = 0
         this.skewY = 0
-        this.degree = Math.PI * 2
         this.width = this.img.width * this.scale
         this.height = this.img.height * this.scale
     }
@@ -26,7 +22,6 @@ export default class Sprite {
             this.mapCoords.x,
             this.mapCoords.y
         )
-        this.ctx.rotate(this.degree)
     }
 
     clearCtx() {
@@ -45,13 +40,6 @@ export default class Sprite {
         const { x, y } = point
         this.coords.x = x
         this.coords.y = y
-        this.render()
-    }
-
-    rotateTo(point) {
-        const { x, y } = point
-        this.degree = degToRad(90 - radToDeg(Math.atan2(-y + this.coords.y, x - this.coords.x)))
-        this.render()
     }
 
     generatePath() {

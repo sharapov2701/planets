@@ -5,7 +5,7 @@ import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCoords, setTotalClicksCount } from '../../redux/actions'
-import { getNewPoint } from '../../engine/helpers'
+import { getNewPoint } from './helpers'
 import starship from '../../img/starship.png'
 import styles from './starship.module.scss'
 

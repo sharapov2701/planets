@@ -1,7 +1,3 @@
-export const radToDeg = rad => (rad * 180) / Math.PI
-
-export const degToRad = deg => (deg * Math.PI) / 180
-
 export const getPathLength = (startPoint, endPoint) => Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2))
 
 export const getNewPoint = (startPoint, endPoint, speed) => {

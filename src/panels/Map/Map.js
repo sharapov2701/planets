@@ -1,126 +1,73 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
-import { render } from '../../engine/canvas'
-import Sprite from '../../engine/Sprite'
-import Starship from '../../engine/Starship'
-
+import { createSprites, render } from './helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTarget } from '../../redux/actions'
-
-import starshipImage from '../../img/starship.png'
-import planetImage from '../../img/planet.png'
 import styles from './map.module.scss'
 
 const Map = ({ id, go }) => {
 	const dispatch = useDispatch()
-	const currentLocation = useSelector(state => state.currentStarship.coords)
-	const target = useSelector(state => state.currentStarship.target)
+	const currentStarship = useSelector(state => state.currentStarship)
+	const fetchedPlanets = useSelector(state => state.planets)
 	const startPoint = { x: 0, y: 0 }
-	const canvas = useRef()
-	const ctx = useRef()
-	const starship = useRef()
-	const planet = useRef()
-	const planet2 = useRef()
-	const starships = useRef()
-	const planets = useRef()
-	const sprites = useRef()
-	const starshipImg = useRef()
-	const planetImg = useRef()
+	const canvas = useRef(null)
 	const zoom = useRef(1)
 	const mouse = useRef(startPoint)
 	const moveShift = useRef(startPoint)
 	const zoomShift = useRef(startPoint)
 	const isMouseDown = useRef(false)
 	const zoomShiftOnMove = useRef(startPoint)
+	const [, setIsLoaded] = useState(false)
 
-	useEffect(() => {
-		canvas.current.width  = canvas.current.offsetWidth;
-		canvas.current.height = canvas.current.offsetHeight;
-		ctx.current = canvas.current.getContext('2d')
-		starshipImg.current = new Image()
-		starshipImg.current.src = starshipImage
-		planetImg.current = new Image()
-		planetImg.current.src = planetImage
-		starship.current = new Starship({
-			ctx: ctx.current,
-			img: starshipImg.current,
-			coords: {
-				x: 500,
-				y: 500
-			},
-			scale: 0.2,
-			zoom: zoom.current,
-			zoomShift: zoomShift.current,
-			moveShift: moveShift.current,
-			render
-		})
-		planet.current = new Sprite({
-			ctx: ctx.current,
-			img: planetImg.current,
-			coords: {
-				x: 123,
-				y: 456
-			},
-			scale: 0.1,
-			zoom: zoom.current,
-			zoomShift: zoomShift.current,
-			moveShift: moveShift.current,
-			render
-		})
-		planet2.current = new Sprite({
-			ctx: ctx.current,
-			img: planetImg.current,
-			coords: {
-				x: 789,
-				y: 987
-			},
-			scale: 0.1,
-			zoom: zoom.current,
-			zoomShift: zoomShift.current,
-			moveShift: moveShift.current,
-			render
-		})
-		starships.current = [starship.current]
-		planets.current = [planet.current, planet2.current]
-		sprites.current = [...planets.current, ...starships.current]
-		render(ctx.current, canvas.current, sprites.current, zoom.current, zoomShift.current, moveShift.current)
-	}, [])
+	const centerThePoint = point => {
+		const center = {
+			x: canvas.current.offsetWidth / 2 / zoom.current - zoomShift.current.x,
+			y: canvas.current.offsetHeight / 2 / zoom.current - zoomShift.current.y
+		}
+		moveShift.current = {
+			x: center.x - point.x,
+			y: center.y - point.y
+		}
+	}
 
-	useEffect(() => {
-		starship.current.goTo(currentLocation)
-		starship.current.target = target
-	})
+	const onResize = () => {
+		canvas.current.width  = canvas.current.offsetWidth
+		canvas.current.height = canvas.current.offsetHeight
+		render()
+	}
 
 	// window.onmousedown = window.ontouchstart
 	const onMouseDown = e => {
 		e.persist()
+		isMouseDown.current = true
 		mouse.current = {
 			x: (e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft,
 			y: (e.pageY || e.touches[0].pageY) - canvas.current.offsetTop
 		}
-		isMouseDown.current = true
 	}
+	
 	// window.onmousemove = window.ontouchmove
 	const onMouseMove = e => {
 		e.persist()
+		const cursorCoords = {
+			x: (e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft,
+			y: (e.pageY || e.touches[0].pageY) - canvas.current.offsetTop
+		}
 		zoomShiftOnMove.current = {
-			x: ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) / zoom.current - ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft),
-			y: ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop) / zoom.current - ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop)
+			x: cursorCoords.x / zoom.current - cursorCoords.x,
+			y: cursorCoords.y / zoom.current - cursorCoords.y
 		}
 		if (isMouseDown.current) {
 			canvas.current.style.cursor = 'all-scroll'
 			moveShift.current = {
-				x: moveShift.current.x + (((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) - mouse.current.x) / zoom.current,
-				y: moveShift.current.y + (((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop) - mouse.current.y) / zoom.current
+				x: moveShift.current.x + (cursorCoords.x - mouse.current.x) / zoom.current,
+				y: moveShift.current.y + (cursorCoords.y - mouse.current.y) / zoom.current
 			}
-			mouse.current = {
-				x: (e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft,
-				y: (e.pageY || e.touches[0].pageY) - canvas.current.offsetTop
-			}
-			render(ctx.current, canvas.current, sprites.current, zoom.current, zoomShift.current, moveShift.current)
+			mouse.current = { ...cursorCoords }
+			render({ moveShift: moveShift.current })
 		}
 	}
 
@@ -131,32 +78,62 @@ const Map = ({ id, go }) => {
 		canvas.current.style.cursor = 'auto'
 	}
 
-
 	const onWheel = e => {
 		e.persist()
+		const cursorCoords = {
+			x: (e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft,
+			y: (e.pageY || e.touches[0].pageY) - canvas.current.offsetTop
+		}
 		if ((zoom.current > 0.2 && e.deltaY >= 0) || e.deltaY < 0) {
 			zoom.current = (zoom.current - e.deltaY / 1000).toFixed(1)
 			zoomShift.current = {
-				x: ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) / zoom.current - ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) - (zoomShiftOnMove.current.x - zoomShift.current.x),
-				y: ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop) / zoom.current - ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop) - (zoomShiftOnMove.current.y - zoomShift.current.y)
+				x: cursorCoords.x / zoom.current - cursorCoords.x - (zoomShiftOnMove.current.x - zoomShift.current.x),
+				y: cursorCoords.y / zoom.current - cursorCoords.y - (zoomShiftOnMove.current.y - zoomShift.current.y)
 			}
 			zoomShiftOnMove.current = {
-				x: ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft) / zoom.current - ((e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft),
-				y: ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop) / zoom.current - ((e.pageY || e.touches[0].pageY) - canvas.current.offsetTop)
+				x: cursorCoords.x / zoom.current - cursorCoords.x,
+				y: cursorCoords.y / zoom.current - cursorCoords.y
 			}
 		}
-		render(ctx.current, canvas.current, sprites.current, zoom.current, zoomShift.current, moveShift.current)
+		render({ zoom: zoom.current, zoomShift: zoomShift.current })
 	}
 
 	const onClick = e => {
 		e.persist()
+		const cursorCoords = {
+			x: (e.pageX || e.touches[0].pageX) - canvas.current.offsetLeft,
+			y: (e.pageY || e.touches[0].pageY) - canvas.current.offsetTop
+		}
 		const coords = {
-			x: (e.pageX - canvas.current.offsetLeft) / zoom.current - zoomShift.current.x - moveShift.current.x,
-			y: (e.pageY - canvas.current.offsetTop) / zoom.current - zoomShift.current.y - moveShift.current.y
+			x: cursorCoords.x / zoom.current - zoomShift.current.x - moveShift.current.x,
+			y: cursorCoords.y / zoom.current - zoomShift.current.y - moveShift.current.y
 		}
 		dispatch(setTarget(coords))
+		render()
 	}
 
+	useEffect(() => {
+		window.addEventListener('resize', onResize)
+		centerThePoint(currentStarship.coords)
+		return () => window.removeEventListener('resize', onResize)
+	}, [currentStarship.coords])
+
+	useEffect(() => {
+		canvas.current.width  = canvas.current.offsetWidth
+		canvas.current.height = canvas.current.offsetHeight
+		const ctx = canvas.current.getContext('2d')
+		const sprites = createSprites(ctx, [...fetchedPlanets, currentStarship])
+		render({
+			ctx,
+			canvas: canvas.current,
+			sprites,
+			zoom: zoom.current,
+			zoomShift: zoomShift.current,
+			moveShift: moveShift.current
+		})
+		setIsLoaded(true)
+	})
+	
 	return (
 		<Panel id={id}>
 			<PanelHeader>Карта</PanelHeader>
@@ -170,6 +147,7 @@ const Map = ({ id, go }) => {
 				</Button>
 				<br />
 				<canvas
+					className={styles.canvas}
 					width={window.innerWidth}
 					height={window.innerHeight}
 					ref={canvas}
@@ -178,10 +156,7 @@ const Map = ({ id, go }) => {
 					onMouseUp={onMouseUp}
 					onWheel={onWheel}
 					onClick={onClick}
-					className={styles.canvas}
-				>
-					Ваш браузер устарел, и не поддерживает данное приложение
-				</canvas>
+				/>
 			</Div>
 		</Panel>
 	)
