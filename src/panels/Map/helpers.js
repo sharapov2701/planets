@@ -1,18 +1,21 @@
 import Sprite from './sprites/Sprite'
 import Starship from './sprites/Starship'
 
-export const createSprites = (ctx, sprites) => (
+export const createSprites = (ctx, sprites, isLoaded) => (
     sprites.map(sprite => {
         const Class = sprite.type === 'planet' ? Sprite : Starship
         const img = new Image()
         img.src = sprite.img
-
-        return new Class({
+        
+        const instance = new Class({
             ctx,
             img,
             coords: {...sprite.coords},
             scale: sprite.scale,
             target: sprite.target || null
+        })
+        return isLoaded ? instance : new Promise(resolve => {
+            img.onload = () => resolve(instance)
         })
     })
 )

@@ -3,12 +3,13 @@ import bridge from '@vkontakte/vk-bridge'
 import View from '@vkontakte/vkui/dist/components/View/View'
 import '@vkontakte/vkui/dist/vkui.css'
 
+import Intro from './panels/Intro/Intro'
 import Home from './panels/Home/Home'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home')
+	const [activePanel, setActivePanel] = useState('intro')
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -23,7 +24,8 @@ const App = () => {
 	const go = e => setActivePanel(e.currentTarget.dataset.to)
 
 	return (
-		<View activePanel={activePanel} >
+		<View activePanel={activePanel}>
+			<Intro id='intro' go={go} />
 			<Home id='home' go={go} />
 			<Map id='map' go={go} />
 			<Starship id='starship' go={go} />

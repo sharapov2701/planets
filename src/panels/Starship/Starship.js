@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
@@ -8,17 +8,21 @@ import { setCoords, setTotalClicksCount } from '../../redux/actions'
 import { getNewPoint } from './helpers'
 import starship from '../../img/starship.png'
 import styles from './starship.module.scss'
-
-
+import cn from 'classnames'
 
 const Starship = ({ id, go }) => {
 	const dispatch = useDispatch()
 	const totalClicksCount = useSelector(state => state.totalClicksCount)
 	const { coords, target, speed } = useSelector(state => state.currentStarship)
 	const newPoint = getNewPoint(coords, target, speed)
+	const [flight, setFlight] = useState(false)
 	const handleClick = () => {
 		dispatch(setTotalClicksCount())
 		dispatch(setCoords(newPoint))
+		setFlight(true)
+		setTimeout(() => {
+			setFlight(false)
+		}, 500)
 	}
 
 	return (
@@ -35,7 +39,15 @@ const Starship = ({ id, go }) => {
 				<br />
 				<p className={styles.clicks}>Всего кликов: {totalClicksCount}</p>
 				<div className={styles.starshipWrapper} onClick={() => handleClick()}>
-					<img className={styles.starship} src={starship} alt='Космический корабль'/>
+					<img
+						className={
+							flight
+							? cn(styles.starship, styles.starshipFlight)
+							: styles.starship
+						}
+						src={starship}
+						alt='Космический корабль'
+					/>
 				</div>
 			</Div>
 		</Panel>

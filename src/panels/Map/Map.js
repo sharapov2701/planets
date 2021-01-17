@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
@@ -20,7 +20,6 @@ const Map = ({ id, go }) => {
 	const zoomShift = useRef(startPoint)
 	const isMouseDown = useRef(false)
 	const zoomShiftOnMove = useRef(startPoint)
-	const [, setIsLoaded] = useState(false)
 
 	const centerThePoint = point => {
 		const center = {
@@ -109,20 +108,32 @@ const Map = ({ id, go }) => {
 			y: cursorCoords.y / zoom.current - zoomShift.current.y - moveShift.current.y
 		}
 		dispatch(setTarget(coords))
-		render()
 	}
 
 	useEffect(() => {
 		window.addEventListener('resize', onResize)
-		centerThePoint(currentStarship.coords)
+		const ctx = canvas.current.getContext('2d')
+		const sprites = createSprites(ctx, [...fetchedPlanets, currentStarship], false)
+		Promise.all(sprites).then(result => {
+			centerThePoint(currentStarship.coords)
+			render({
+				ctx,
+				canvas: canvas.current,
+				sprites: result,
+				zoom: zoom.current,
+				zoomShift: zoomShift.current,
+				moveShift: moveShift.current
+			})
+		})
+
 		return () => window.removeEventListener('resize', onResize)
-	}, [currentStarship.coords])
+	}, [])
 
 	useEffect(() => {
 		canvas.current.width  = canvas.current.offsetWidth
 		canvas.current.height = canvas.current.offsetHeight
 		const ctx = canvas.current.getContext('2d')
-		const sprites = createSprites(ctx, [...fetchedPlanets, currentStarship])
+		const sprites = createSprites(ctx, [...fetchedPlanets, currentStarship], true)
 		render({
 			ctx,
 			canvas: canvas.current,
@@ -131,7 +142,6 @@ const Map = ({ id, go }) => {
 			zoomShift: zoomShift.current,
 			moveShift: moveShift.current
 		})
-		setIsLoaded(true)
 	})
 	
 	return (

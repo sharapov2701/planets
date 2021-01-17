@@ -8,6 +8,26 @@
     max-width: 100%;
 }
 
+.starshipFlight {
+    animation-duration: 0.5s;
+    animation-name: flight;
+    animation-iteration-count: infinite;
+}
+
 .clicks {
     text-align: center;
 }
+
+@keyframes flight {
+    from {
+        margin-top: 0;
+    }
+
+    75% {
+        margin-top: -20px;
+    }
+
+    to {
+        margin-top: 0;
+    }
+  }
