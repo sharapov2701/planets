@@ -1,18 +1,17 @@
 import React from 'react'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
-import starship from '../../../img/starship.png'
 import styles from './slide.module.scss'
 
-const Slide = ({ go, children }) => (
+const Slide = ({ img, withButton, buttonText, go, children }) => (
 	<div className={styles.slide}>
-		<img className={styles.img} src={starship} />
+		<img className={styles.img} src={img} />
 		<p className={styles.text}>
 			{children}
 		</p>
 		<div className={styles.btnWrapper}>
-			<Button className={styles.btn} onClick={go} data-to="home" size="xl">
-				Го играть!
-			</Button>
+			{withButton && <Button className={styles.btn} onClick={go} data-to="starship" size="xl">
+				{buttonText || 'Вперед'}
+			</Button>}
 		</div>
 	</div>
 )

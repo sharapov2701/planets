@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import bridge from '@vkontakte/vk-bridge'
 import View from '@vkontakte/vkui/dist/components/View/View'
 import '@vkontakte/vkui/dist/vkui.css'
-
 import Intro from './panels/Intro/Intro'
-import Home from './panels/Home/Home'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 
@@ -26,9 +24,8 @@ const App = () => {
 	return (
 		<View activePanel={activePanel}>
 			<Intro id='intro' go={go} />
-			<Home id='home' go={go} />
-			<Map id='map' go={go} />
 			<Starship id='starship' go={go} />
+			<Map id='map' go={go} />
 		</View>
 	)
 }

@@ -3,6 +3,7 @@ import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Gallery from '@vkontakte/vkui/dist/components/Gallery/Gallery'
 import Slide from './Slide/Slide'
+import starship from '../../img/starship.png'
 
 const Intro = ({ id, go }) => {
 	return (
@@ -11,11 +12,27 @@ const Intro = ({ id, go }) => {
 			<Gallery
 				bullets="light"
 				style={{height: window.innerHeight - 53 }}
-				slideIndex={1}
 			>
-				<Slide go={go}>Добро пожаловать в Звездную Лихорадку!</Slide>
-				<Slide go={go}>Текст для второго слайда пока еще не придумал...</Slide>
-				<Slide go={go}>Спасибо за внимание!</Slide>
+				<Slide
+					img={starship}
+					go={go}
+				>
+					Добро пожаловать в Звездную Лихорадку!
+				</Slide>
+				<Slide
+					img={starship}
+					go={go}
+				>
+					Текст для второго слайда пока еще не придумал...
+				</Slide>
+				<Slide
+					img={starship}
+					go={go}
+					withButton
+					buttonText='Поехали!'
+				>
+					Спасибо за внимание!
+				</Slide>
 			</Gallery>
 		</Panel>
 	)

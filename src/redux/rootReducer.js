@@ -19,8 +19,8 @@ const initialState = {
             y: 0
         },
         target: {
-            x: 0,
-            y: 0
+            x: 1,
+            y: 1
         }
     },
     planets: [

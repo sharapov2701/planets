@@ -3,6 +3,9 @@ import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
+import Epic from '@vkontakte/vkui/dist/components/Epic/Epic'
+import Tabbar from '@vkontakte/vkui/dist/components/Tabbar/Tabbar'
+import TabbarItem from '@vkontakte/vkui/dist/components/TabbarItem/TabbarItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCoords, setTotalClicksCount } from '../../redux/actions'
 import { getNewPoint } from './helpers'
@@ -29,10 +32,6 @@ const Starship = ({ id, go }) => {
 		<Panel id={id}>
 			<PanelHeader>Корабль</PanelHeader>
 			<Div>
-				<Button size="xl" level="2" onClick={go} data-to="home">
-					База
-				</Button>
-				<br />
 				<Button size="xl" level="2" onClick={go} data-to="map">
 					Карта
 				</Button>
@@ -50,6 +49,15 @@ const Starship = ({ id, go }) => {
 					/>
 				</div>
 			</Div>
+			<Epic>
+				<Tabbar>
+					<TabbarItem>Исследования</TabbarItem>
+					<TabbarItem>Улучшения</TabbarItem>
+					<TabbarItem>Ускорения</TabbarItem>
+					<TabbarItem>Достижения</TabbarItem>
+					<TabbarItem>Рейтинг</TabbarItem>
+				</Tabbar>
+			</Epic>
 		</Panel>
 	)
 }
