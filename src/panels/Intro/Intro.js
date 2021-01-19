@@ -11,6 +11,7 @@ const Intro = ({ id, go }) => {
 			<Gallery
 				bullets="light"
 				style={{height: window.innerHeight - 53 }}
+				slideIndex={1}
 			>
 				<Slide go={go}>Добро пожаловать в Звездную Лихорадку!</Slide>
 				<Slide go={go}>Текст для второго слайда пока еще не придумал...</Slide>

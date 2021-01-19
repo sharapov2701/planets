@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     background: url(../../../img/space.jpg);
 }
 
@@ -18,6 +19,9 @@
 }
 
 .btn {
-    position: absolute;
-    bottom: 0;
+    margin-bottom: 25px;
+}
+
+.btnWrapper {
+    width: 90%;
 }
