@@ -1,3 +1,8 @@
+.root {
+    background: url(../../img/space.jpg);
+    height: 100%;
+}
+
 .starshipWrapper {
     width: 100%;
     display: flex;
@@ -31,4 +36,8 @@
     to {
         margin-top: 0;
     }
-  }
+}
+
+.tabbarItem {
+    cursor: pointer;
+}

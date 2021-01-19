@@ -6,6 +6,7 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div'
 import Epic from '@vkontakte/vkui/dist/components/Epic/Epic'
 import Tabbar from '@vkontakte/vkui/dist/components/Tabbar/Tabbar'
 import TabbarItem from '@vkontakte/vkui/dist/components/TabbarItem/TabbarItem'
+import { Link } from '@vkontakte/vkui';
 import { useDispatch, useSelector } from 'react-redux'
 import { setCoords, setTotalClicksCount } from '../../redux/actions'
 import { getNewPoint } from './helpers'
@@ -31,7 +32,7 @@ const Starship = ({ id, go }) => {
 	return (
 		<Panel id={id}>
 			<PanelHeader>Корабль</PanelHeader>
-			<Div>
+			<Div className={styles.root} style={{ height: window.innerHeight - 78 }}>
 				<Button size="xl" level="2" onClick={go} data-to="map">
 					Карта
 				</Button>
@@ -51,11 +52,11 @@ const Starship = ({ id, go }) => {
 			</Div>
 			<Epic>
 				<Tabbar>
-					<TabbarItem>Исследования</TabbarItem>
-					<TabbarItem>Улучшения</TabbarItem>
-					<TabbarItem>Ускорения</TabbarItem>
-					<TabbarItem>Достижения</TabbarItem>
-					<TabbarItem>Рейтинг</TabbarItem>
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='research' text='Исследования' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Улучшения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Ускорения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Достижения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Рейтинг' />
 				</Tabbar>
 			</Epic>
 		</Panel>

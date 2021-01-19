@@ -2,7 +2,10 @@ export const getPathLength = (startPoint, endPoint) => Math.sqrt(Math.pow(endPoi
 
 export const getNewPoint = (startPoint, endPoint, speed) => {
     if (!speed) {
-        return endPoint
+        return startPoint
+    }
+    if (startPoint.x === endPoint.x && startPoint.y === endPoint.y) {
+        return startPoint
     }
     const oldPathLength = getPathLength(startPoint, endPoint)
     const newPathLength = oldPathLength > speed ? oldPathLength - speed : 1

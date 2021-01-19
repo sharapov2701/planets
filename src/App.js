@@ -5,6 +5,7 @@ import '@vkontakte/vkui/dist/vkui.css'
 import Intro from './panels/Intro/Intro'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
+import Research from './panels/Research/Research'
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('intro')
@@ -26,6 +27,7 @@ const App = () => {
 			<Intro id='intro' go={go} />
 			<Starship id='starship' go={go} />
 			<Map id='map' go={go} />
+			<Research id='research' go={go} />
 		</View>
 	)
 }
