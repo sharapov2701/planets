@@ -52,7 +52,7 @@ const Starship = ({ id, go }) => {
 			</Div>
 			<Epic>
 				<Tabbar>
-					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='research' text='Исследования' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='researches' text='Исследования' />
 					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Улучшения' />
 					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Ускорения' />
 					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Достижения' />

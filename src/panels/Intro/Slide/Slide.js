@@ -2,16 +2,16 @@ import React from 'react'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import styles from './slide.module.scss'
 
-const Slide = ({ img, withButton, buttonText, go, children }) => (
+const Slide = ({ img, buttonText, text, go, dataTo }) => (
 	<div className={styles.slide}>
 		<img className={styles.img} src={img} />
 		<p className={styles.text}>
-			{children}
+			{text}
 		</p>
 		<div className={styles.btnWrapper}>
-			{withButton && <Button className={styles.btn} onClick={go} data-to="starship" size="xl">
-				{buttonText || 'Вперед'}
-			</Button>}
+			<Button className={styles.btn} onClick={go} data-to={dataTo} size="xl">
+				{buttonText || 'Далее'}
+			</Button>
 		</div>
 	</div>
 )

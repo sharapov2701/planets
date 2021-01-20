@@ -5,10 +5,10 @@ import '@vkontakte/vkui/dist/vkui.css'
 import Intro from './panels/Intro/Intro'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
-import Research from './panels/Research/Research'
+import Researches from './panels/Researches/Researches'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('intro')
+	const [activePanel, setActivePanel] = useState('researches')
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -27,7 +27,7 @@ const App = () => {
 			<Intro id='intro' go={go} />
 			<Starship id='starship' go={go} />
 			<Map id='map' go={go} />
-			<Research id='research' go={go} />
+			<Researches id='researches' go={go} />
 		</View>
 	)
 }

@@ -1,0 +1,76 @@
+.research {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.icon {
+    max-width: 75px;
+    max-height: 75px;
+}
+
+.about {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.title {
+    margin: 0;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.desc {
+    margin: 0;
+    font-size: 12px;
+}
+
+.btn {
+    background: crimson;
+    border-radius: 4px;
+    height: 50px;
+    width: 125px;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &:hover {
+        background: red;
+    }
+}
+
+.btnText {
+    margin: 0;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.price {
+    margin: 0;
+}
+
+.disabled {
+    cursor: auto;
+    background: grey;
+    
+    &:hover {
+        background: grey;
+    }
+}
+
+.researched {
+    cursor: auto;
+    background: green;
+    
+    &:hover {
+        background: green;
+    }
+}
