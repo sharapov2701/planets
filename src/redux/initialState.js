@@ -5,7 +5,8 @@ export default {
     totalClicksCount: 0,
     player: {
         money: 750000,
-        researches: []
+        researches: [],
+        improvements: []
     },
     currentStarship: {
         type: 'starship',
@@ -45,17 +46,53 @@ export default {
         {
             name: 'Квантовые двигатели',
             desc: 'Установим новейшие квантовые двигатели на ваш космолёт. Быстро! Дешего! Надежно! Гарантия 3 мес.',
-            cost: 10000000
+            cost: 10000000,
+            dependencies: [
+                'Ускорение 2 уровня'
+            ]
         },
         {
             name: 'Минеральное топливо',
             desc: 'Выгодно и экологично',
-            cost: 25000
+            cost: 25000,
+            dependencies: [
+                'Ускорение 1 уровня'
+            ]
         },
         {
             name: 'Мобильный Хаббл',
             desc: 'Лучший телескоп в галактике прямо у вас на корабле!',
             cost: 750000
+        },
+    ],
+    improvements: [
+        {
+            name: 'Ускорение 1 уровня',
+            desc: 'Ускоряет, но скоростью не балует',
+            buffs: [
+                {
+                    target: 'speed',
+                    type: 'increase',
+                    value: 5
+                }
+            ],
+            requirements: [
+                'Минеральное топливо'
+            ]
+        },
+        {
+            name: 'Ускорение 2 уровня',
+            desc: 'Как ускорение 1 уровня, но только 2 уровня',
+            buffs: [
+                {
+                    target: 'speed',
+                    type: 'increase',
+                    value: 10
+                }
+            ],
+            requirements: [
+                'Квантовые двигатели'
+            ]
         },
     ]
 }

@@ -6,9 +6,10 @@ import Intro from './panels/Intro/Intro'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 import Researches from './panels/Researches/Researches'
+import Improvements from './panels/Improvements/Improvements'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('researches')
+	const [activePanel, setActivePanel] = useState('intro')
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -28,6 +29,7 @@ const App = () => {
 			<Starship id='starship' go={go} />
 			<Map id='map' go={go} />
 			<Researches id='researches' go={go} />
+			<Improvements id='improvements' go={go} />
 		</View>
 	)
 }

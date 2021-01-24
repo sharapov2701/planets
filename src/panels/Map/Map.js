@@ -152,10 +152,6 @@ const Map = ({ id, go }) => {
 					Корабль
 				</Button>
 				<br />
-				<Button size="xl" level="2" onClick={go} data-to="home">
-					База
-				</Button>
-				<br />
 				<canvas
 					className={styles.canvas}
 					width={window.innerWidth}

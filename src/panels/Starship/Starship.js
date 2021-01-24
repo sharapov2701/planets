@@ -53,10 +53,10 @@ const Starship = ({ id, go }) => {
 			<Epic>
 				<Tabbar>
 					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='researches' text='Исследования' />
-					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Улучшения' />
-					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Ускорения' />
-					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Достижения' />
-					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='' text='Рейтинг' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='improvements' text='Улучшения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='home' text='Ускорения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='home' text='Достижения' />
+					<TabbarItem className={styles.tabbarItem} onClick={go} data-to='home' text='Рейтинг' />
 				</Tabbar>
 			</Epic>
 		</Panel>
