@@ -10,7 +10,7 @@ import styles from './map.module.scss'
 
 const Map = ({ id, go }) => {
 	const dispatch = useDispatch()
-	const currentStarship = useSelector(state => state.currentStarship)
+	const currentStarship = useSelector(state => state.player.currentStarship)
 	const fetchedPlanets = useSelector(state => state.planets)
 	const startPoint = { x: 0, y: 0 }
 	const canvas = useRef(null)

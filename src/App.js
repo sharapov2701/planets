@@ -7,9 +7,12 @@ import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 import Researches from './panels/Researches/Researches'
 import Improvements from './panels/Improvements/Improvements'
+import { timer } from './redux/actions'
+import { useDispatch, } from 'react-redux'
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('intro')
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -19,7 +22,12 @@ const App = () => {
 				document.body.attributes.setNamedItem(schemeAttribute)
 			}
 		})
+
+		const interval = () => dispatch(timer())
+		setInterval(interval, 1000)
+		return () => clearInterval(interval)
 	}, [])
+
 
 	const go = e => setActivePanel(e.currentTarget.dataset.to)
 

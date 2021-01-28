@@ -1,12 +1,13 @@
 import {
-    SET_TOTAL_CLICKS_COUNT,
+    CLICK,
     SET_COORDS,
     SET_TARGET,
     BUY,
-    RESEARCH
+    RESEARCH,
+    TIMER
 } from './types'
 
-export const setTotalClicksCount = () => ({ type: SET_TOTAL_CLICKS_COUNT })
+export const click = () => ({ type: CLICK })
 
 export const setCoords = coords => ({ type: SET_COORDS, payload: coords })
 
@@ -15,3 +16,5 @@ export const setTarget = coords => ({ type: SET_TARGET, payload: coords })
 export const buy = price => ({ type: BUY, payload: price })
 
 export const research = research => ({ type: RESEARCH, payload: research })
+
+export const timer = () => ({ type: TIMER })

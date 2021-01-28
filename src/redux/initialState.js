@@ -2,25 +2,29 @@ import planetImage from '../img/planet.png'
 import starshipImage from '../img/starship.png'
 
 export default {
-    totalClicksCount: 0,
     player: {
         money: 750000,
         researches: [],
-        improvements: []
-    },
-    currentStarship: {
-        type: 'starship',
-        img: starshipImage,
-        scale: 0.2,
-        speed: 100,
-        coords: {
-            x: 0,
-            y: 0
+        improvements: [],
+        buffs: [],
+        totalClicksCount: 0,
+        score: 0,
+        playTime: 0,
+        scorePerSecond: 0,
+        currentStarship: {
+            type: 'starship',
+            img: starshipImage,
+            scale: 0.2,
+            speed: 100,
+            coords: {
+                x: 0,
+                y: 0
+            },
+            target: {
+                x: 0,
+                y: 0
+            }
         },
-        target: {
-            x: 0,
-            y: 0
-        }
     },
     planets: [
         {
