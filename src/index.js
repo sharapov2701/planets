@@ -9,6 +9,7 @@ import { compose, createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { rootReducer } from './redux/rootReducer'
+import './styles/index.scss'
 
 // Init VK  Mini App
 bridge.send("VKWebAppInit")

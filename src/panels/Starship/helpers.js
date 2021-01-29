@@ -13,3 +13,5 @@ export const getNewPoint = (startPoint, endPoint, speed) => {
     const y = endPoint.y + newPathLength * (startPoint.y - endPoint.y) / oldPathLength
     return { x, y }
 }
+
+export const toggleGrayFilter = () => document.querySelector('body').classList.toggle('grayFilter')
