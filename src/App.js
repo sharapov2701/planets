@@ -7,7 +7,7 @@ import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 import Researches from './panels/Researches/Researches'
 import Improvements from './panels/Improvements/Improvements'
-import { timer } from './redux/actions'
+import { tenSecondBonus, timer } from './redux/actions'
 import { useDispatch, } from 'react-redux'
 
 const App = () => {
@@ -23,9 +23,16 @@ const App = () => {
 			}
 		})
 
-		const interval = () => dispatch(timer())
-		setInterval(interval, 1000)
-		return () => clearInterval(interval)
+		const timerInterval = () => dispatch(timer())
+		const tenSecondInterval = () => dispatch(tenSecondBonus())
+
+		setInterval(timerInterval, 1000)
+		setInterval(tenSecondInterval, 10000)
+
+		return () => {
+			clearInterval(timerInterval)
+			clearInterval(tenSecondInterval)
+		}
 	}, [])
 
 

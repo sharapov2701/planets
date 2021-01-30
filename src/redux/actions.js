@@ -4,7 +4,8 @@ import {
     SET_TARGET,
     BUY,
     RESEARCH,
-    TIMER
+    TIMER,
+    TEN_SECOND_BONUS
 } from './types'
 
 export const click = () => ({ type: CLICK })
@@ -18,3 +19,5 @@ export const buy = price => ({ type: BUY, payload: price })
 export const research = research => ({ type: RESEARCH, payload: research })
 
 export const timer = () => ({ type: TIMER })
+
+export const tenSecondBonus = () => ({ type: TEN_SECOND_BONUS })

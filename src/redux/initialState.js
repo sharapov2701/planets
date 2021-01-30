@@ -8,6 +8,8 @@ export default {
         improvements: [],
         buffs: [],
         totalClicksCount: 0,
+        tenSecondClicks: 0,
+        tenSecondBonus: 1,
         score: 0,
         playTime: 0,
         scorePerSecond: 0,
@@ -75,6 +77,7 @@ export default {
             desc: 'Ускоряет, но скоростью не балует',
             buffs: [
                 {
+                    name: 'Ускорение 1 уровня',
                     target: 'speed',
                     type: 'increase',
                     value: 5
@@ -89,6 +92,7 @@ export default {
             desc: 'Как ускорение 1 уровня, но только 2 уровня',
             buffs: [
                 {
+                    name: 'Ускорение 2 уровня',
                     target: 'speed',
                     type: 'increase',
                     value: 10
@@ -97,6 +101,44 @@ export default {
             requirements: [
                 'Квантовые двигатели'
             ]
+        },
+    ],
+    buffs: [
+        {
+            name: 'Ускорение 1 уровня',
+            target: 'speed',
+            type: 'increase',
+            value: 5
+        },
+        {
+            name: 'Ускорение 2 уровня',
+            target: 'speed',
+            type: 'increase',
+            value: 10
+        },
+        {
+            name: 'tenSecondBuffX2',
+            target: 'score',
+            type: 'multiply',
+            value: 2
+        },
+        {
+            name: 'tenSecondBuffX3',
+            target: 'score',
+            type: 'multiply',
+            value: 3
+        },
+        {
+            name: 'tenSecondBuffX4',
+            target: 'score',
+            type: 'multiply',
+            value: 4
+        },
+        {
+            name: 'tenSecondBuffX5',
+            target: 'score',
+            type: 'multiply',
+            value: 5
         },
     ]
 }

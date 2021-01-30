@@ -22,6 +22,7 @@ const Starship = ({ id, go }) => {
 	const newPoint = getNewPoint(coords, target, speed)
 	const [flight, setFlight] = useState(false)
 	const [grayFilterBeenUsed, setGrayFilterBeenUsed] = useState(false)
+	const tenSecondBonus = useSelector(state => state.player.tenSecondBonus)
 
 	const handleClick = () => {
 		dispatch(click())
@@ -64,6 +65,7 @@ const Starship = ({ id, go }) => {
 				<br />
 				<p className={styles.clicks}>{score}</p>
 				<p className={styles.clicks}>{scorePerSecond} / сек</p>
+				<p className={styles.clicks}>x{tenSecondBonus}</p>
 				<div className={styles.starshipWrapper} onClick={() => handleClick()}>
 					<img
 						className={
