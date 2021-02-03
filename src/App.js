@@ -11,7 +11,7 @@ import { tenSecondBonus, timer } from './redux/actions'
 import { useDispatch, } from 'react-redux'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('intro')
+	const [activePanel, setActivePanel] = useState('map')
 	const dispatch = useDispatch()
 
 	useEffect(() => {
