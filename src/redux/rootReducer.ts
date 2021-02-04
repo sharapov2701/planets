@@ -1,19 +1,10 @@
-import {
-    CLICK,
-    SET_COORDS,
-    SET_TARGET,
-    BUY,
-    RESEARCH,
-    TIMER,
-    TEN_SECOND_BONUS
-} from './types'
-import initialState from './initialState'
+import { initialState } from './initialState'
+import { state, action, buff } from '../types'
 import { increaseScore, multiplyScore } from './helpers'
 
-export const rootReducer = (state = initialState, action) => {
+export const rootReducer = (state: state = initialState, action: action<any>): state => {
     switch (action.type) {
-        case CLICK:
-            console.log(state.player.buffs)
+        case 'CLICK':
             const score = state.player.score + state.player.buffs.reduce(increaseScore, 0) + state.player.buffs.reduce(multiplyScore, 1)
             return {
                 ...state,
@@ -25,7 +16,7 @@ export const rootReducer = (state = initialState, action) => {
                 }
             }
 
-        case SET_COORDS:
+        case 'SET_COORDS':
             return {
                 ...state,
                 player: {
@@ -37,7 +28,7 @@ export const rootReducer = (state = initialState, action) => {
                 }
             }
             
-        case SET_TARGET:
+        case 'SET_TARGET':
             return {
                 ...state,
                 player: {
@@ -49,18 +40,18 @@ export const rootReducer = (state = initialState, action) => {
                 }
             }
 
-        case BUY:
+        case 'BUY':
             return { ...state, player: { ...state.player, money: state.player.money - action.payload}}
             
-        case RESEARCH:
+        case 'RESEARCH':
             return { ...state, player: { ...state.player, researches: [...state.player.researches, action.payload]}}
 
-        case TIMER:
+        case 'TIMER':
             const playTime = ++state.player.playTime
-            const scorePerSecond = (state.player.score / playTime).toFixed(2)
+            const scorePerSecond = +(state.player.score / playTime).toFixed(2)
             return { ...state, player: { ...state.player, playTime, scorePerSecond }}
 
-        case TEN_SECOND_BONUS:
+        case 'TEN_SECOND_BONUS':
             const currTenSecClicks = Math.round(state.player.tenSecondClicks / 10)
             const tenSecBuffNames = ['tenSecondBuffX2', 'tenSecondBuffX3', 'tenSecondBuffX4', 'tenSecondBuffX5']
             const playerB = {...state.player}
@@ -68,8 +59,10 @@ export const rootReducer = (state = initialState, action) => {
                 const prevBuff = playerB.buffs.find(b => tenSecBuffNames.includes(b.name))
                 if (!prevBuff) {
                     playerB.tenSecondBonus += 1
-                    const newBuff = state.buffs.find(b => b.name === tenSecBuffNames[0])
-                    playerB.buffs.push(newBuff)
+                    const newBuff: buff | undefined = state.buffs.find(b => b.name === tenSecBuffNames[0])
+                    if (newBuff) {
+                        playerB.buffs.push(newBuff)
+                    }
                 } else if (playerB.tenSecondBonus < 5) {
                     playerB.tenSecondBonus += 1
                     playerB.buffs = playerB.buffs.filter(b => b.name !== prevBuff.name)
@@ -96,7 +89,6 @@ export const rootReducer = (state = initialState, action) => {
                 ...state,
                 player: {
                     ...playerB,
-                    prevTenSecondClicks: state.player.tenSecondClicks,
                     tenSecondClicks: 0
                 }
             }

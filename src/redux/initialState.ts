@@ -1,7 +1,8 @@
-import planetImage from '../img/planet.png'
-import starshipImage from '../img/starship.png'
+import * as planetImage from '../img/planet.png'
+import * as starshipImage from '../img/starship.png'
+import { state } from '../types'
 
-export default {
+export const initialState: state = {
     player: {
         money: 750000,
         researches: [],
@@ -14,7 +15,6 @@ export default {
         playTime: 0,
         scorePerSecond: 0,
         currentStarship: {
-            type: 'starship',
             img: starshipImage,
             scale: 0.2,
             speed: 100,
@@ -30,7 +30,6 @@ export default {
     },
     planets: [
         {
-            type: 'planet',
 			img: planetImage,
 			coords: {
 				x: 123,
@@ -39,7 +38,6 @@ export default {
 			scale: 0.1,
         },
         {
-            type: 'planet',
 			img: planetImage,
 			coords: {
 				x: 789,

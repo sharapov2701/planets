@@ -1,7 +1,0 @@
-export const CLICK = 'CLICK'
-export const SET_COORDS = 'SET_COORDS'
-export const SET_TARGET = 'SET_TARGET'
-export const BUY = 'BUY'
-export const RESEARCH = 'RESEARCH'
-export const TIMER = 'TIMER'
-export const TEN_SECOND_BONUS = 'TEN_SECOND_BONUS'

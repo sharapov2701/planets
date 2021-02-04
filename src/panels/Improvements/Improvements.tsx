@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import * as React from 'react'
+import { useState, useEffect } from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
-import { PanelHeaderBack } from '@vkontakte/vkui';
-import styles from './improvements.module.scss'
-import Improvement from './Improvement/Improvement';
-import { useSelector } from 'react-redux';
+import { PanelHeaderBack } from '@vkontakte/vkui'
+import Improvement from './Improvement/Improvement'
+import { useSelector } from 'react-redux'
 import { getRequirementsList } from './helpers'
+import { state } from '../../types'
+import * as styles from './improvements.module.scss'
 
-const Improvements = ({ id, go }) => {
-	const fetchedImprovements = useSelector(state => state.improvements)
-	const playerImprovements = useSelector(state => state.player.improvements)
-	const playerResearches = useSelector(state => state.player.researches)
-	const [improvements, setImprovements] = useState([])
+interface ImprovementsProps {
+	id: string,
+	go: Function
+}
+
+const Improvements = ({ id, go }: ImprovementsProps) => {
+	const fetchedImprovements = useSelector((state: state) => state.improvements)
+	const playerImprovements = useSelector((state: state) => state.player.improvements)
+	const playerResearches = useSelector((state: state) => state.player.researches)
+	const [improvements, setImprovements] = useState<JSX.Element[]>([])
 
 	useEffect(() => {
 		const processedImprovements = fetchedImprovements.map((improvement, i) => {
