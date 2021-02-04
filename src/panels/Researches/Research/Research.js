@@ -14,7 +14,7 @@ const Research = ({ name, desc, cost, disabled, researched }) => {
 
     return (
         <div className={styles.research} onClick={!disabled && !researched ? handleClick : null}>
-            <img className={styles.icon} src={icon} />
+            <img className={styles.icon} src={icon} alt={name} />
             <div className={styles.about}>
                 <p className={styles.title}>{name}</p>
                 <p className={styles.desc}>{desc}</p>

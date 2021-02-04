@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Image } from 'react-konva';
+import { Image } from 'react-konva'
 
-const Planet = props => {
+const MapSprite = props => {
+    const ref = useRef(null)
     const imageRef = useRef(null)
     const [image, setImage] = useState(null)
     const coords = {
@@ -11,6 +12,11 @@ const Planet = props => {
     const scale = {
         x: props.scale * props.map.zoom,
         y: props.scale * props.map.zoom
+    }
+
+    let angle = 0
+    if (props.target) {
+        angle = 90 - Math.atan2(-props.target.y + props.coords.y, props.target.x - props.coords.x) * 180 / Math.PI
     }
 
     const handleLoad = () => {
@@ -37,15 +43,19 @@ const Planet = props => {
     useEffect(() => {
         loadImage()
     }, [props.src])
-  
+
     return (
         <Image
             x={coords.x}
             y={coords.y}
             image={image}
             scale={scale}
+            ref={ref}
+            offsetX={image ? image.width / 2 : 0}
+            offsetY={image ? image.height / 2 : 0}
+            rotation={angle}
         />
     )
 }
 
-export default Planet
+export default MapSprite

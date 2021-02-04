@@ -25,10 +25,28 @@ export const rootReducer = (state = initialState, action) => {
             }
 
         case SET_COORDS:
-            return { ...state, player: { ...state.player, currentStarship: {...state.currentStarship, coords: action.payload }}}
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    currentStarship: {
+                        ...state.player.currentStarship,
+                        coords: action.payload
+                    }
+                }
+            }
             
         case SET_TARGET:
-            return { ...state, player: { ...state.player, currentStarship: {...state.currentStarship, target: action.payload }}}
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    currentStarship: {
+                        ...state.player.currentStarship,
+                        target: action.payload
+                    }
+                }
+            }
 
         case BUY:
             return { ...state, player: { ...state.player, money: state.player.money - action.payload}}

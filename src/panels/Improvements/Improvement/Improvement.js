@@ -7,7 +7,7 @@ const Improvement = ({ name, desc, available, requirements }) => {
 
     return (
         <div className={styles.research}>
-            <img className={styles.icon} src={icon} />
+            <img className={styles.icon} src={icon} alt={name} />
             <div className={styles.about}>
                 <p className={styles.title}>{name}</p>
                 <p className={styles.desc}>{desc}</p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
@@ -53,7 +53,7 @@ const Starship = ({ id, go }) => {
 				setGrayFilterBeenUsed(false)
 				break
 		}
-	})
+	}, [totalClicksCount, grayFilterBeenUsed])
 
 	return (
 		<Panel id={id}>

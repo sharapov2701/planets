@@ -19,8 +19,8 @@ export default {
             scale: 0.2,
             speed: 100,
             coords: {
-                x: 0,
-                y: 0
+                x: 456,
+                y: 456
             },
             target: {
                 x: 0,
@@ -43,7 +43,7 @@ export default {
 			img: planetImage,
 			coords: {
 				x: 789,
-				y: 987
+				y: 456
 			},
 			scale: 0.1,
 		}

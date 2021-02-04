@@ -10,17 +10,26 @@ const Intro = ({ id, go }) => {
 	const [slideIndex, setSlideIndex] = useState(0)
 	const slides = [
 		{
-			img: starship,
+			img: {
+				src: starship,
+				alt: 'Космический корабль'
+			},
 			text: 'Добро пожаловать в Звездную Лихорадку!',
 			go: nextSlide
 		},
 		{
-			img: starship,
+			img: {
+				src: starship,
+				alt: 'Космический корабль'
+			},
 			text: 'Текст для второго слайда пока еще не придумал...',
 			go: nextSlide
 		},
 		{
-			img: starship,
+			img: {
+				src: starship,
+				alt: 'Космический корабль'
+			},
 			text: 'Спасибо за внимание!',
 			go: go,
 			dataTo: 'starship',

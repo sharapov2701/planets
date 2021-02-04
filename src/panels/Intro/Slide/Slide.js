@@ -4,7 +4,7 @@ import styles from './slide.module.scss'
 
 const Slide = ({ img, buttonText, text, go, dataTo }) => (
 	<div className={styles.slide}>
-		<img className={styles.img} src={img} />
+		<img className={styles.img} src={img.src} alt={img.alt} />
 		<p className={styles.text}>
 			{text}
 		</p>
