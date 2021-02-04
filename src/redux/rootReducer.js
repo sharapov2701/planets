@@ -13,6 +13,7 @@ import { increaseScore, multiplyScore } from './helpers'
 export const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case CLICK:
+            console.log(state.player.buffs)
             const score = state.player.score + state.player.buffs.reduce(increaseScore, 0) + state.player.buffs.reduce(multiplyScore, 1)
             return {
                 ...state,
@@ -73,7 +74,9 @@ export const rootReducer = (state = initialState, action) => {
                     playerB.tenSecondBonus += 1
                     playerB.buffs = playerB.buffs.filter(b => b.name !== prevBuff.name)
                     const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${playerB.tenSecondBonus}`)
-                    playerB.buffs.push(newBuff)
+                    if (newBuff) {
+                        playerB.buffs.push(newBuff)
+                    }
                 }
             } else if (currTenSecClicks < playerB.tenSecondBonus) {
                 const prevBuff = playerB.buffs.find(b => tenSecBuffNames.includes(b?.name))
@@ -82,7 +85,9 @@ export const rootReducer = (state = initialState, action) => {
                         playerB.tenSecondBonus -= 1
                         playerB.buffs = playerB.buffs.filter(b => b.name !== prevBuff.name)
                         const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${playerB.tenSecondBonus}`)
-                        playerB.buffs.push(newBuff)
+                        if (newBuff) {
+                            playerB.buffs.push(newBuff)
+                        }
                     }
                 }
             }
