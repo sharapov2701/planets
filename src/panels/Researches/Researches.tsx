@@ -2,15 +2,16 @@ import React from 'react'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
-import { PanelHeaderBack } from '@vkontakte/vkui';
+import { PanelHeaderBack } from '@vkontakte/vkui'
 import styles from './researches.module.scss'
-import Research from './Research/Research';
-import { useSelector } from 'react-redux';
+import Research from './Research/Research'
+import { useSelector } from 'react-redux'
+import { state, IPanelProps } from '../../types'
 
-const Researches = ({ id, go }) => {
-	const researches = useSelector(state => state.researches)
-	const playerResearches = useSelector(state => state.player.researches)
-	const money = useSelector(state => state.player.money)
+const Researches = ({ id, go }: IPanelProps) => {
+	const researches = useSelector((state: state) => state.researches)
+	const playerResearches = useSelector((state: state) => state.player.researches)
+	const money = useSelector((state: state) => state.player.money)
 
 	return (
 		<Panel id={id}>

@@ -3,7 +3,14 @@ import cn from 'classnames'
 import icon from './improvement.png'
 import styles from './improvement.module.scss'
 
-const Improvement = ({ name, desc, available, requirements }) => {
+interface improvementProps {
+    name: string,
+    desc: string,
+    available: boolean,
+    requirements: string | false
+}
+
+const Improvement = ({ name, desc, available, requirements }: improvementProps) => {
 
     return (
         <div className={styles.research}>

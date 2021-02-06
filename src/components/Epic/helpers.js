@@ -1,1 +1,0 @@
-export const toggleGrayFilter = () => document.querySelector('body').classList.toggle('grayFilter')

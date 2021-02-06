@@ -5,7 +5,15 @@ import styles from './research.module.scss'
 import { useDispatch } from 'react-redux'
 import { buy, research } from '../../../redux/actions'
 
-const Research = ({ name, desc, cost, disabled, researched }) => {
+interface ResearchProps {
+    name: string,
+    desc: string,
+    cost: number,
+    disabled: boolean,
+    researched: boolean
+}
+
+const Research = ({ name, desc, cost, disabled, researched }: ResearchProps) => {
     const dispatch = useDispatch()
     const handleClick = () => {
         dispatch(buy(cost))
@@ -13,7 +21,7 @@ const Research = ({ name, desc, cost, disabled, researched }) => {
     }
 
     return (
-        <div className={styles.research} onClick={!disabled && !researched ? handleClick : null}>
+        <div className={styles.research} onClick={!disabled && !researched ? handleClick : undefined}>
             <img className={styles.icon} src={icon} alt={name} />
             <div className={styles.about}>
                 <p className={styles.title}>{name}</p>

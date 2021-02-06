@@ -12,7 +12,7 @@ export type action<T> = {
     payload?: T
 }
 
-export type actionCreator = <T>(data: T) => action<T>
+export type actionCreator = <T>(data?: T) => action<T>
 
 export type attribute = 'speed' | 'score'
 
@@ -78,4 +78,9 @@ export type state = {
     researches: research[],
     improvements: improvement[],
     buffs: buff[]
+}
+
+export interface IPanelProps {
+	id: string,
+	go: (event: React.SyntheticEvent<EventTarget>) => void
 }

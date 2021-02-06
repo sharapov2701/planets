@@ -1,5 +1,5 @@
-import * as planetImage from '../img/planet.png'
-import * as starshipImage from '../img/starship.png'
+import planetImage from '../img/planet.png'
+import starshipImage from '../img/starship.png'
 import { state } from '../types'
 
 export const initialState: state = {

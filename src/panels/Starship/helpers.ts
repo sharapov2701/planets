@@ -1,6 +1,8 @@
-export const getPathLength = (startPoint, endPoint) => Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2))
+import { coords } from '../../types'
 
-export const getNewPoint = (startPoint, endPoint, speed) => {
+export const getPathLength = (startPoint: coords, endPoint: coords): number => Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2))
+
+export const getNewPoint = (startPoint: coords, endPoint: coords, speed: number): coords => {
     if (!speed) {
         return startPoint
     }

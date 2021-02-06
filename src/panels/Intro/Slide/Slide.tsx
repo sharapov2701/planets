@@ -2,7 +2,18 @@ import React from 'react'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import styles from './slide.module.scss'
 
-const Slide = ({ img, buttonText, text, go, dataTo }) => (
+interface slideProps {
+	img: {
+		src: string,
+		alt: string
+	},
+	buttonText?: string,
+	text: string,
+	go: (event: React.SyntheticEvent<EventTarget>) => void,
+	dataTo?: string
+}
+
+const Slide = ({ img, buttonText, text, go, dataTo }: slideProps) => (
 	<div className={styles.slide}>
 		<img className={styles.img} src={img.src} alt={img.alt} />
 		<p className={styles.text}>

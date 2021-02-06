@@ -7,15 +7,10 @@ import { PanelHeaderBack } from '@vkontakte/vkui'
 import Improvement from './Improvement/Improvement'
 import { useSelector } from 'react-redux'
 import { getRequirementsList } from './helpers'
-import { state } from '../../types'
+import { state, IPanelProps } from '../../types'
 import * as styles from './improvements.module.scss'
 
-interface ImprovementsProps {
-	id: string,
-	go: Function
-}
-
-const Improvements = ({ id, go }: ImprovementsProps) => {
+const Improvements = ({ id, go }: IPanelProps) => {
 	const fetchedImprovements = useSelector((state: state) => state.improvements)
 	const playerImprovements = useSelector((state: state) => state.player.improvements)
 	const playerResearches = useSelector((state: state) => state.player.researches)
@@ -50,11 +45,7 @@ const Improvements = ({ id, go }: ImprovementsProps) => {
 
 	return (
 		<Panel id={id}>
-			<PanelHeader
-				left={<PanelHeaderBack
-				onClick={go}
-				data-to='starship'
-			/>}>
+			<PanelHeader left={<PanelHeaderBack onClick={go} data-to='starship' />}>
 				Улучшения
 			</PanelHeader>
 

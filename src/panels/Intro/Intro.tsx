@@ -4,9 +4,10 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import PanelHeaderBack from '@vkontakte/vkui/dist/components/PanelHeaderBack/PanelHeaderBack'
 import Gallery from '@vkontakte/vkui/dist/components/Gallery/Gallery'
 import Slide from './Slide/Slide'
+import { IPanelProps } from '../../types'
 import starship from '../../img/starship.png'
 
-const Intro = ({ id, go }) => {
+const Intro = ({ id, go }: IPanelProps) => {
 	const [slideIndex, setSlideIndex] = useState(0)
 	const slides = [
 		{
@@ -59,7 +60,16 @@ const Intro = ({ id, go }) => {
 				slideIndex={slideIndex}
 				onChange={slideIndex => setSlideIndex(slideIndex)}
 			>
-				{slides.map((slide, i) => <Slide key={i} {...slide} />)}
+				{slides.map((slide, i) => (
+					<Slide
+						img={slide.img}
+						text={slide.text}
+						buttonText={slide.buttonText}
+						go={slide.go}
+						dataTo={slide.dataTo}
+						key={i}
+					/>
+				))}
 			</Gallery>
 		</Panel>
 	)

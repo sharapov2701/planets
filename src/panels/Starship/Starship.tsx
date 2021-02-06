@@ -8,17 +8,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCoords, click } from '../../redux/actions'
 import { getNewPoint } from './helpers'
 import starship from '../../img/starship.png'
+import { state, IPanelProps } from '../../types'
 import styles from './starship.module.scss'
 import cn from 'classnames'
 
-const Starship = ({ id, go }) => {
+const Starship = ({ id, go }: IPanelProps) => {
 	const dispatch = useDispatch()
-	const score = useSelector(state => state.player.score)
-	const scorePerSecond = useSelector(state => state.player.scorePerSecond)
-	const { coords, target, speed } = useSelector(state => state.player.currentStarship)
+	const score = useSelector((state: state) => state.player.score)
+	const scorePerSecond = useSelector((state: state) => state.player.scorePerSecond)
+	const { coords, target, speed } = useSelector((state: state) => state.player.currentStarship)
 	const newPoint = getNewPoint(coords, target, speed)
 	const [flight, setFlight] = useState(false)
-	const tenSecondBonus = useSelector(state => state.player.tenSecondBonus)
+	const tenSecondBonus = useSelector((state: state) => state.player.tenSecondBonus)
 
 	const handleClick = () => {
 		dispatch(click())
@@ -33,7 +34,7 @@ const Starship = ({ id, go }) => {
 		<Panel id={id}>
 			<PanelHeader>Корабль</PanelHeader>
 			<Div className={styles.root} style={{ height: window.innerHeight - 78 }}>
-				<Button size="xl" level="2" onClick={go} data-to="map">
+				<Button size="xl" onClick={go} data-to="map">
 					Карта
 				</Button>
 				<br />
@@ -52,7 +53,7 @@ const Starship = ({ id, go }) => {
 					/>
 				</div>
 			</Div>
-			<Epic go={go} />
+			<Epic />
 		</Panel>
 	)
 }

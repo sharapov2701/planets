@@ -1,1 +1,0 @@
-export const getRequirementsList = requirments => `Требуется ${requirments.join(', ')}`

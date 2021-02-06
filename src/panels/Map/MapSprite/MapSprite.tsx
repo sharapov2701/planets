@@ -1,10 +1,23 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Image } from 'react-konva'
+import { coords } from '../../../types'
 
-const MapSprite = props => {
+interface mapSpriteProps {
+    src: string,
+    coords: coords,
+    target?: coords,
+    scale: number,
+    map: {
+        zoom: number,
+        zoomShift: coords,
+        moveShift: coords
+    }
+}
+
+const MapSprite = (props: mapSpriteProps) => {
     const ref = useRef(null)
-    const imageRef = useRef(null)
-    const [image, setImage] = useState(null)
+    const imageRef = useRef<HTMLImageElement>()
+    const [image, setImage] = useState<HTMLImageElement>()
     const coords = {
         x: (props.coords.x + props.map.moveShift.x + props.map.zoomShift.x) * props.map.zoom,
         y: (props.coords.y + props.map.moveShift.y + props.map.zoomShift.y) * props.map.zoom

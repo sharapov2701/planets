@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import bridge from '@vkontakte/vk-bridge'
 import View from '@vkontakte/vkui/dist/components/View/View'
 import '@vkontakte/vkui/dist/vkui.css'
 import Intro from './panels/Intro/Intro'
@@ -15,19 +14,8 @@ const App = () => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		bridge.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme')
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light'
-				document.body.attributes.setNamedItem(schemeAttribute)
-			}
-		})
-
-		const timerInterval = () => dispatch(timer())
-		const tenSecondInterval = () => dispatch(tenSecondBonus())
-
-		setInterval(timerInterval, 1000)
-		setInterval(tenSecondInterval, 10000)
+		const timerInterval = setInterval(() => dispatch(timer()), 1000)
+		const tenSecondInterval = setInterval(() => dispatch(tenSecondBonus()), 10000)
 
 		return () => {
 			clearInterval(timerInterval)
@@ -36,7 +24,11 @@ const App = () => {
 	}, [])
 
 
-	const go = e => setActivePanel(e.currentTarget.dataset.to)
+	const go = (e: React.SyntheticEvent<EventTarget>) => {
+		if (e.currentTarget instanceof HTMLElement && e.currentTarget.dataset.to) {
+			setActivePanel(e.currentTarget.dataset.to)
+		}
+	}
 
 	return (
 		<View activePanel={activePanel}>
