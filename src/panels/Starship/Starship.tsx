@@ -4,6 +4,7 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
 import Epic from '../../components/Epic'
+import ProgressBarVertical from '../../components/ProgressBarVertical'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCoords, click } from '../../redux/actions'
 import { getNewPoint } from './helpers'
@@ -12,7 +13,7 @@ import { state, IPanelProps } from '../../types'
 import styles from './starship.module.scss'
 import cn from 'classnames'
 
-const Starship = ({ id, go }: IPanelProps) => {
+const Starship = ({ id }: IPanelProps) => {
 	const dispatch = useDispatch()
 	const score = useSelector((state: state) => state.player.score)
 	const scorePerSecond = useSelector((state: state) => state.player.scorePerSecond)
@@ -20,6 +21,8 @@ const Starship = ({ id, go }: IPanelProps) => {
 	const newPoint = getNewPoint(coords, target, speed)
 	const [flight, setFlight] = useState(false)
 	const tenSecondBonus = useSelector((state: state) => state.player.tenSecondBonus)
+	const fiveMinutesTimer = useSelector((state: state) => state.player.fiveMinutesTimer)
+	const cometsEventCounter = useSelector((state: state) => state.player.cometsEventCounter)
 
 	const handleClick = () => {
 		dispatch(click())
@@ -34,13 +37,12 @@ const Starship = ({ id, go }: IPanelProps) => {
 		<Panel id={id}>
 			<PanelHeader>Корабль</PanelHeader>
 			<Div className={styles.root} style={{ height: window.innerHeight - 78 }}>
-				<Button size="xl" onClick={go} data-to="map">
-					Карта
-				</Button>
-				<br />
 				<p className={styles.clicks}>{score}</p>
 				<p className={styles.clicks}>{scorePerSecond} / сек</p>
 				<p className={styles.clicks}>x{tenSecondBonus}</p>
+				<ProgressBarVertical className={styles.progressBarLeft} progress={fiveMinutesTimer / 3} />
+				<span className={styles.fiveMin}>{Math.abs(300 - fiveMinutesTimer)}</span>
+				<ProgressBarVertical className={styles.progressBarRight} progress={cometsEventCounter / 8} color={'red'} />
 				<div className={styles.starshipWrapper} onClick={() => handleClick()}>
 					<img
 						className={

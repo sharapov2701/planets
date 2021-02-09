@@ -11,6 +11,8 @@ export const initialState: state = {
         totalClicksCount: 0,
         tenSecondClicks: 0,
         tenSecondBonus: 1,
+        fiveMinutesTimer: 0,
+        cometsEventCounter: 0,
         score: 0,
         playTime: 0,
         scorePerSecond: 0,
@@ -138,5 +140,11 @@ export const initialState: state = {
             type: 'multiply',
             value: 5
         },
+        {
+            name: 'fiveMinutesBoost',
+            target: 'score',
+            type: 'multiply',
+            value: 10
+        }
     ]
 }

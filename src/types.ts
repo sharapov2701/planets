@@ -5,14 +5,17 @@ type actionType =
     'BUY' |
     'RESEARCH' |
     'TIMER' |
-    'TEN_SECOND_BONUS'
+    'TEN_SECOND_BONUS' |
+    'FIVE_MINUTES_BOOST'
 
 export type action<T> = {
     type: actionType,
     payload?: T
 }
 
-export type actionCreator = <T>(data?: T) => action<T>
+export type thunk = (dispatch: actionCreator, getState: () => state) => void
+
+export type actionCreator = <T>(data?: T) => action<T> | thunk
 
 export type attribute = 'speed' | 'score'
 
@@ -66,6 +69,8 @@ export type playerState = {
     totalClicksCount: number,
     tenSecondClicks: number,
     tenSecondBonus: number,
+    fiveMinutesTimer: number,
+    cometsEventCounter: number,
     score: number,
     playTime: number,
     scorePerSecond: number,

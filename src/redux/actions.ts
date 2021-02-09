@@ -13,3 +13,12 @@ export const research: actionCreator = research => ({ type: 'RESEARCH', payload:
 export const timer: actionCreator = () => ({ type: 'TIMER' })
 
 export const tenSecondBonus: actionCreator = () => ({ type: 'TEN_SECOND_BONUS' })
+
+export const fiveMinutesBoost: actionCreator = () => {
+    return async (dispatch) => {
+        dispatch({ type: 'FIVE_MINUTES_BOOST' })
+        setTimeout(() => {
+            dispatch({ type: 'FIVE_MINUTES_BOOST' })
+        }, 3000)
+    }
+}

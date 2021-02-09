@@ -6,13 +6,15 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
     switch (action.type) {
         case 'CLICK':
             const score = state.player.score + state.player.buffs.reduce(increaseScore, 0) + state.player.buffs.reduce(multiplyScore, 1)
+            const cometsEventCounter = state.player.cometsEventCounter === 800 ? 0 : ++state.player.cometsEventCounter
             return {
                 ...state,
                 player: {
                     ...state.player,
                     score,
                     totalClicksCount: ++state.player.totalClicksCount,
-                    tenSecondClicks: ++state.player.tenSecondClicks
+                    tenSecondClicks: ++state.player.tenSecondClicks,
+                    cometsEventCounter
                 }
             }
 
@@ -49,7 +51,8 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
         case 'TIMER':
             const playTime = ++state.player.playTime
             const scorePerSecond = +(state.player.score / playTime).toFixed(2)
-            return { ...state, player: { ...state.player, playTime, scorePerSecond }}
+            let fiveMinutesTimer = state.player.fiveMinutesTimer === 300 ? 0 : ++state.player.fiveMinutesTimer
+            return { ...state, player: { ...state.player, playTime, scorePerSecond, fiveMinutesTimer }}
 
         case 'TEN_SECOND_BONUS':
             const currTenSecClicks = Math.round(state.player.tenSecondClicks / 10)
@@ -90,6 +93,32 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
                 player: {
                     ...playerB,
                     tenSecondClicks: 0
+                }
+            }
+
+        case 'FIVE_MINUTES_BOOST':
+            const playerHasBoost = state.player.buffs.find(b => b.name === 'fiveMinutesBoost')
+            if (playerHasBoost) {
+                const newBuffs = state.player.buffs.filter(b => b.name !== 'fiveMinutesBoost')
+                return {
+                    ...state,
+                    player: {
+                        ...state.player,
+                        buffs: [...newBuffs]
+                    }
+                }
+            } else {
+                const fiveMinutesBoost = state.buffs.find(b => b.name === 'fiveMinutesBoost')
+                if (fiveMinutesBoost) {
+                    return {
+                        ...state,
+                        player: {
+                            ...state.player,
+                            buffs: [...state.player.buffs, fiveMinutesBoost]
+                        }
+                    }
+                } else {
+                    throw new Error('BuffError')
                 }
             }
 

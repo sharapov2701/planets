@@ -1,6 +1,7 @@
 .root {
     background: url(../../img/space.jpg);
     height: 100%;
+    position: relative;
 }
 
 .starshipWrapper {
@@ -37,4 +38,23 @@
     to {
         margin-top: 0;
     }
+}
+
+.progressBarLeft {
+    position: absolute;
+    left: 10px;
+    bottom: 100px;
+}
+
+.progressBarRight {
+    position: absolute;
+    right: 10px;
+    bottom: 100px;
+}
+
+.fiveMin {
+    position: absolute;
+    left: 8px;
+    bottom: 75px;
+    color: white
 }

@@ -6,8 +6,8 @@ import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 import Researches from './panels/Researches/Researches'
 import Improvements from './panels/Improvements/Improvements'
-import { tenSecondBonus, timer } from './redux/actions'
-import { useDispatch, } from 'react-redux'
+import { tenSecondBonus, timer, fiveMinutesBoost } from './redux/actions'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('intro')
@@ -16,10 +16,12 @@ const App = () => {
 	useEffect(() => {
 		const timerInterval = setInterval(() => dispatch(timer()), 1000)
 		const tenSecondInterval = setInterval(() => dispatch(tenSecondBonus()), 10000)
+		const fiveMinutesInterval = setInterval(() => dispatch(fiveMinutesBoost()), 300000)
 
 		return () => {
 			clearInterval(timerInterval)
 			clearInterval(tenSecondInterval)
+			clearInterval(fiveMinutesInterval)
 		}
 	}, [])
 
