@@ -5,11 +5,15 @@
   
 .enterActive {
   opacity: 1;
+  filter: grayscale(0%) !important;
+  pointer-events: auto !important;
   transition: all 1500ms ease-in-out;
 }
 
 .exit {
   opacity: 1;
+  filter: grayscale(0%) !important;
+  pointer-events: auto !important;
   transition: all 1500ms ease-in-out;
 }
 
