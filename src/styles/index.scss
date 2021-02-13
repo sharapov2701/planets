@@ -1,8 +1,12 @@
-.grayFilter {
-    filter: grayscale(100%);
-    pointer-events: none;
+body {
+  transition: filter 300ms ease-in-out;
 }
 
 img {
   user-select: none;
+}
+
+.grayFilter {
+  filter: grayscale(100%);
+  pointer-events: none;
 }
