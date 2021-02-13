@@ -3,120 +3,88 @@ import { state, action, buff } from '../types'
 import { increaseScore, multiplyScore } from './helpers'
 
 export const rootReducer = (state: state = initialState, action: action<any>): state => {
+    const player = { ...state.player }
+    
     switch (action.type) {
         case 'CLICK':
-            const score = state.player.score + state.player.buffs.reduce(increaseScore, 0) + state.player.buffs.reduce(multiplyScore, 1)
-            const cometsEventCounter = state.player.cometsEventCounter === 800 ? 0 : ++state.player.cometsEventCounter
-            return {
-                ...state,
-                player: {
-                    ...state.player,
-                    score,
-                    totalClicksCount: ++state.player.totalClicksCount,
-                    tenSecondClicks: ++state.player.tenSecondClicks,
-                    cometsEventCounter
-                }
-            }
+            const newScores = player.buffs.reduce(increaseScore, 0) + player.buffs.reduce(multiplyScore, 1)
+            player.score = player.score + newScores
+            player.cometsEventCounter = player.cometsEventCounter === 800 ? 0 : ++player.cometsEventCounter
+            player.totalClicksCount = ++player.totalClicksCount
+            player.scoreLastSecond += newScores
+            player.tenSecondClicks = ++player.tenSecondClicks
+            return { ...state, player }
 
         case 'SET_COORDS':
-            return {
-                ...state,
-                player: {
-                    ...state.player,
-                    currentStarship: {
-                        ...state.player.currentStarship,
-                        coords: action.payload
-                    }
-                }
-            }
+            player.currentStarship.coords = action.payload
+            return { ...state, player }
             
         case 'SET_TARGET':
-            return {
-                ...state,
-                player: {
-                    ...state.player,
-                    currentStarship: {
-                        ...state.player.currentStarship,
-                        target: action.payload
-                    }
-                }
-            }
+            player.currentStarship.target = action.payload
+            return { ...state, player }
 
         case 'BUY':
-            return { ...state, player: { ...state.player, money: state.player.money - action.payload}}
+            player.money = player.money - action.payload
+            return { ...state, player }
             
         case 'RESEARCH':
-            return { ...state, player: { ...state.player, researches: [...state.player.researches, action.payload]}}
+            player.researches.push(action.payload)
+            return { ...state, player }
 
         case 'TIMER':
-            const playTime = ++state.player.playTime
-            const scorePerSecond = +(state.player.score / playTime).toFixed(2)
-            let fiveMinutesTimer = state.player.fiveMinutesTimer === 300 ? 0 : ++state.player.fiveMinutesTimer
-            return { ...state, player: { ...state.player, playTime, scorePerSecond, fiveMinutesTimer }}
+            player.playTime = ++player.playTime
+            player.scorePerSecond = player.scoreLastSecond
+            player.scoreLastSecond = 0
+            player.fiveMinutesTimer = player.fiveMinutesTimer === 300 ? 0 : ++player.fiveMinutesTimer
+            return { ...state, player }
 
         case 'TEN_SECOND_BONUS':
-            const currTenSecClicks = Math.round(state.player.tenSecondClicks / 10)
+            const currTenSecClicks = Math.round(player.tenSecondClicks / 10)
             const tenSecBuffNames = ['tenSecondBuffX2', 'tenSecondBuffX3', 'tenSecondBuffX4', 'tenSecondBuffX5']
-            const playerB = {...state.player}
-            if (currTenSecClicks > playerB.tenSecondBonus) {
-                const prevBuff = playerB.buffs.find(b => tenSecBuffNames.includes(b.name))
+            if (currTenSecClicks > player.tenSecondBonus) {
+                const prevBuff = player.buffs.find(b => tenSecBuffNames.includes(b.name))
                 if (!prevBuff) {
-                    playerB.tenSecondBonus += 1
+                    player.tenSecondBonus += 1
                     const newBuff: buff | undefined = state.buffs.find(b => b.name === tenSecBuffNames[0])
                     if (newBuff) {
-                        playerB.buffs.push(newBuff)
+                        player.buffs.push(newBuff)
                     }
-                } else if (playerB.tenSecondBonus < 5) {
-                    playerB.tenSecondBonus += 1
-                    playerB.buffs = playerB.buffs.filter(b => b.name !== prevBuff.name)
-                    const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${playerB.tenSecondBonus}`)
+                } else if (player.tenSecondBonus < 5) {
+                    player.tenSecondBonus += 1
+                    player.buffs = player.buffs.filter(b => b.name !== prevBuff.name)
+                    const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${player.tenSecondBonus}`)
                     if (newBuff) {
-                        playerB.buffs.push(newBuff)
+                        player.buffs.push(newBuff)
                     }
                 }
-            } else if (currTenSecClicks < playerB.tenSecondBonus) {
-                const prevBuff = playerB.buffs.find(b => tenSecBuffNames.includes(b?.name))
+            } else if (currTenSecClicks < player.tenSecondBonus) {
+                const prevBuff = player.buffs.find(b => tenSecBuffNames.includes(b?.name))
                 if (prevBuff) {
-                    if (playerB.tenSecondBonus > 1) {
-                        playerB.tenSecondBonus -= 1
-                        playerB.buffs = playerB.buffs.filter(b => b.name !== prevBuff.name)
-                        const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${playerB.tenSecondBonus}`)
+                    if (player.tenSecondBonus > 1) {
+                        player.tenSecondBonus -= 1
+                        player.buffs = player.buffs.filter(b => b.name !== prevBuff.name)
+                        const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${player.tenSecondBonus}`)
                         if (newBuff) {
-                            playerB.buffs.push(newBuff)
+                            player.buffs.push(newBuff)
                         }
                     }
                 }
             }
-
-            return {
-                ...state,
-                player: {
-                    ...playerB,
-                    tenSecondClicks: 0
-                }
-            }
+            player.tenSecondClicks = 0
+            return { ...state, player }
 
         case 'FIVE_MINUTES_BOOST':
-            const playerHasBoost = state.player.buffs.find(b => b.name === 'fiveMinutesBoost')
+            const playerHasBoost = player.buffs.find(b => b.name === 'fiveMinutesBoost')
             if (playerHasBoost) {
-                const newBuffs = state.player.buffs.filter(b => b.name !== 'fiveMinutesBoost')
-                return {
-                    ...state,
-                    player: {
-                        ...state.player,
-                        buffs: [...newBuffs]
-                    }
-                }
+                player.buffs = player.buffs.filter(b => b.name !== 'fiveMinutesBoost')
+                player.fiveMinutesBoost = 1
+                return { ...state, player }
             } else {
                 const fiveMinutesBoost = state.buffs.find(b => b.name === 'fiveMinutesBoost')
                 if (fiveMinutesBoost) {
-                    return {
-                        ...state,
-                        player: {
-                            ...state.player,
-                            buffs: [...state.player.buffs, fiveMinutesBoost]
-                        }
-                    }
+                    player.buffs.push(fiveMinutesBoost)
+                    player.fiveMinutesBoost = 10
+                    return { ...state, player }
                 } else {
                     throw new Error('BuffError')
                 }

@@ -20,6 +20,7 @@ const Starship = ({ id }: Omit<IPanelProps, 'go'>) => {
 	const newPoint = getNewPoint(coords, target, speed)
 	const [flight, setFlight] = useState(false)
 	const tenSecondBonus = useSelector((state: state) => state.player.tenSecondBonus)
+	const fiveMinutesBoost = useSelector((state: state) => state.player.fiveMinutesBoost)
 	const fiveMinutesTimer = useSelector((state: state) => state.player.fiveMinutesTimer)
 	const cometsEventCounter = useSelector((state: state) => state.player.cometsEventCounter)
 
@@ -39,7 +40,7 @@ const Starship = ({ id }: Omit<IPanelProps, 'go'>) => {
 				<Div className={styles.root} style={{ height: window.innerHeight - 78 }}>
 					<p className={styles.clicks}>{score}</p>
 					<p className={styles.clicks}>{scorePerSecond} / сек</p>
-					<p className={styles.clicks}>x{tenSecondBonus}</p>
+					<p className={styles.clicks}>x{tenSecondBonus * fiveMinutesBoost}</p>
 					<ProgressBarVertical className={styles.progressBarLeft} progress={fiveMinutesTimer / 3} />
 					<span className={styles.fiveMin}>{Math.abs(300 - fiveMinutesTimer)}</span>
 					<ProgressBarVertical className={styles.progressBarRight} progress={cometsEventCounter / 8} color={'red'} />

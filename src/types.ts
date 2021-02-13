@@ -70,10 +70,12 @@ export type playerState = {
     tenSecondClicks: number,
     tenSecondBonus: number,
     fiveMinutesTimer: number,
+    fiveMinutesBoost: number,
     cometsEventCounter: number,
     score: number,
     playTime: number,
     scorePerSecond: number,
+    scoreLastSecond: number,
     currentStarship: starship
 }
 

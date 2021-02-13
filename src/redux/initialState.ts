@@ -12,10 +12,12 @@ export const initialState: state = {
         tenSecondClicks: 0,
         tenSecondBonus: 1,
         fiveMinutesTimer: 0,
+        fiveMinutesBoost: 1,
         cometsEventCounter: 0,
         score: 0,
         playTime: 0,
         scorePerSecond: 0,
+        scoreLastSecond: 0,
         currentStarship: {
             img: starshipImage,
             scale: 0.2,
