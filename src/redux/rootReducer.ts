@@ -7,7 +7,7 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
     
     switch (action.type) {
         case 'CLICK':
-            const newScores = player.buffs.reduce(increaseScore, 0) + player.buffs.reduce(multiplyScore, 1)
+            const newScores: number = player.buffs.reduce(increaseScore, 0) + player.buffs.reduce(multiplyScore, 1)
             player.score = player.score + newScores
             player.cometsEventCounter = player.cometsEventCounter === 800 ? 0 : ++player.cometsEventCounter
             player.totalClicksCount = ++player.totalClicksCount
@@ -39,8 +39,8 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
             return { ...state, player }
 
         case 'TEN_SECOND_BONUS':
-            const currTenSecClicks = Math.round(player.tenSecondClicks / 10)
-            const tenSecBuffNames = ['tenSecondBuffX2', 'tenSecondBuffX3', 'tenSecondBuffX4', 'tenSecondBuffX5']
+            const currTenSecClicks: number = Math.round(player.tenSecondClicks / 10)
+            const tenSecBuffNames: string[] = ['tenSecondBuffX2', 'tenSecondBuffX3', 'tenSecondBuffX4', 'tenSecondBuffX5']
             if (currTenSecClicks > player.tenSecondBonus) {
                 const prevBuff = player.buffs.find(b => tenSecBuffNames.includes(b.name))
                 if (!prevBuff) {
@@ -58,12 +58,12 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
                     }
                 }
             } else if (currTenSecClicks < player.tenSecondBonus) {
-                const prevBuff = player.buffs.find(b => tenSecBuffNames.includes(b?.name))
+                const prevBuff: buff | undefined = player.buffs.find(b => tenSecBuffNames.includes(b?.name))
                 if (prevBuff) {
                     if (player.tenSecondBonus > 1) {
                         player.tenSecondBonus -= 1
                         player.buffs = player.buffs.filter(b => b.name !== prevBuff.name)
-                        const newBuff = state.buffs.find(b => b.name === `tenSecondBuffX${player.tenSecondBonus}`)
+                        const newBuff: buff | undefined = state.buffs.find(b => b.name === `tenSecondBuffX${player.tenSecondBonus}`)
                         if (newBuff) {
                             player.buffs.push(newBuff)
                         }
@@ -74,13 +74,13 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
             return { ...state, player }
 
         case 'FIVE_MINUTES_BOOST':
-            const playerHasBoost = player.buffs.find(b => b.name === 'fiveMinutesBoost')
+            const playerHasBoost: buff | undefined = player.buffs.find(b => b.name === 'fiveMinutesBoost')
             if (playerHasBoost) {
                 player.buffs = player.buffs.filter(b => b.name !== 'fiveMinutesBoost')
                 player.fiveMinutesBoost = 1
                 return { ...state, player }
             } else {
-                const fiveMinutesBoost = state.buffs.find(b => b.name === 'fiveMinutesBoost')
+                const fiveMinutesBoost: buff | undefined = state.buffs.find(b => b.name === 'fiveMinutesBoost')
                 if (fiveMinutesBoost) {
                     player.buffs.push(fiveMinutesBoost)
                     player.fiveMinutesBoost = 10
