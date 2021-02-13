@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
+import View from '@vkontakte/vkui/dist/components/View/View'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Div from '@vkontakte/vkui/dist/components/Div/Div'
@@ -44,15 +45,17 @@ const Improvements = ({ id, go }: IPanelProps) => {
 	}, [fetchedImprovements, playerImprovements, playerResearches])
 
 	return (
-		<Panel id={id}>
-			<PanelHeader left={<PanelHeaderBack onClick={go} data-to='starship' />}>
-				Улучшения
-			</PanelHeader>
+		<View id={id} activePanel={id}>
+			<Panel id={id}>
+				<PanelHeader left={<PanelHeaderBack onClick={() => go('starship')}/>}>
+					Улучшения
+				</PanelHeader>
 
-			<Div className={styles.root} style={{ minHeight: window.innerHeight - 78 }}>
-				{improvements}
-			</Div>
-		</Panel>
+				<Div className={styles.root} style={{ minHeight: window.innerHeight - 78 }}>
+					{improvements}
+				</Div>
+			</Panel>
+		</View>
 	)
 }
 

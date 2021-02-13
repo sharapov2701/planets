@@ -10,12 +10,16 @@ import styles from './epic.module.scss'
 import rocket from './rocket.svg'
 import { state } from '../../types'
 
-const Epic = () => {
-    const [activeStory, setActiveStory] = useState<string>('profile')
+interface IEpicProps {
+    activeStory: string,
+    go: (to: string) => void,
+    children: JSX.Element | JSX.Element[]
+}
+
+const Epic = ({ activeStory, go, children }: IEpicProps) => {
 	const totalClicksCount = useSelector((state: state) => state.player.totalClicksCount)
 	const [grayFilterBeenUsed, setGrayFilterBeenUsed] = useState(false)
     const timeout = 1500
-    const go = (e: React.SyntheticEvent<HTMLElement>) => e.currentTarget.dataset.to && setActiveStory(e.currentTarget.dataset.to)
 
     useEffect(() => {
 		switch (totalClicksCount) {
@@ -45,8 +49,7 @@ const Epic = () => {
                 <CSSTransition timeout={timeout} classNames={transition} in={totalClicksCount >= 5} mountOnEnter>
                     <TabbarItem
                         className={styles.tabbarItem}
-                        onClick={go}
-                        data-to='improvements'
+                        onClick={() => go('improvements')}
                         text='Улучшения'
                     >
                         <img src={rocket} width={28} />
@@ -55,8 +58,7 @@ const Epic = () => {
                 <CSSTransition timeout={timeout} classNames={transition} in={totalClicksCount >= 30} mountOnEnter>
                     <TabbarItem
                         className={styles.tabbarItem}
-                        onClick={go}
-                        data-to='researches'
+                        onClick={() => go('researches')}
                         text='Исследования'
                     >
                         <img src={rocket} width={28} />
@@ -65,8 +67,7 @@ const Epic = () => {
                 <CSSTransition timeout={timeout} classNames={transition} in={totalClicksCount >= 50} mountOnEnter>
                     <TabbarItem
                         className={styles.tabbarItem}
-                        onClick={go}
-                        data-to='home'
+                        onClick={() => go('starship')}
                         text='Звездный путь'
                     >
                         <img src={rocket} width={28} />
@@ -75,8 +76,7 @@ const Epic = () => {
                 <CSSTransition timeout={timeout} classNames={transition} in={totalClicksCount >= 100} mountOnEnter>
                     <TabbarItem
                         className={styles.tabbarItem}
-                        onClick={go}
-                        data-to='home'
+                        onClick={() => go('starship')}
                         text='Достижения'
                     >
                         <img src={rocket} width={28} />
@@ -85,15 +85,16 @@ const Epic = () => {
                 <CSSTransition timeout={timeout} classNames={transition} in={totalClicksCount >= 1000} mountOnEnter>
                     <TabbarItem
                         className={styles.tabbarItem}
-                        onClick={go}
-                        data-to='home'
+                        onClick={() => go('starship')}
                         text='Рейтинг'
                     >
                         <img src={rocket} width={28} />
                     </TabbarItem>
                 </CSSTransition>
             </Tabbar>
-        }/>
+        }>
+            {children}
+        </VKEpic>
     )
 }
 

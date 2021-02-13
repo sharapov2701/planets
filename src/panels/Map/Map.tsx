@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import View from '@vkontakte/vkui/dist/components/View/View'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import Button from '@vkontakte/vkui/dist/components/Button/Button'
@@ -116,45 +117,47 @@ const Map = ({ id, go }: IPanelProps) => {
 	}, [])
 
 	return (
-		<Panel id={id}>
-			<PanelHeader>Карта</PanelHeader>
-			<Div>
-				<Button size="xl" onClick={go} data-to="starship">
-					Корабль
-				</Button>
-				<br />
-				<div ref={layer}>
-					<Stage
-						width={window.innerWidth}
-						height={window.innerHeight - 149}
-						onClick={onClick}
-						onWheel={onWheel}
-						onMouseDown={onMouseDown}
-						onMouseUp={onMouseUp}
-						onMouseMove={onMouseMove}
-					>
-						<Layer className={styles.canvas}>
-							{planets.map((sprite, i) => (
+		<View id={id} activePanel={id}>
+			<Panel id={id}>
+				<PanelHeader>Карта</PanelHeader>
+				<Div>
+					<Button size="xl" onClick={() => go('starship')}>
+						Корабль
+					</Button>
+					<br />
+					<div ref={layer}>
+						<Stage
+							width={window.innerWidth}
+							height={window.innerHeight - 149}
+							onClick={onClick}
+							onWheel={onWheel}
+							onMouseDown={onMouseDown}
+							onMouseUp={onMouseUp}
+							onMouseMove={onMouseMove}
+						>
+							<Layer className={styles.canvas}>
+								{planets.map((sprite, i) => (
+									<MapSprite
+										src={sprite.img}
+										coords={sprite.coords}
+										scale={sprite.scale}
+										map={map}
+										key={i}
+									/>
+								))}
 								<MapSprite
-									src={sprite.img}
-									coords={sprite.coords}
-									scale={sprite.scale}
+									src={currentStarship.img}
+									coords={currentStarship.coords}
+									target={currentStarship.target}
+									scale={currentStarship.scale}
 									map={map}
-									key={i}
 								/>
-							))}
-							<MapSprite
-								src={currentStarship.img}
-								coords={currentStarship.coords}
-								target={currentStarship.target}
-								scale={currentStarship.scale}
-								map={map}
-							/>
-						</Layer>
-					</Stage>
-				</div>
-			</Div>
-		</Panel>
+							</Layer>
+						</Stage>
+					</div>
+				</Div>
+			</Panel>
+		</View>
 	)
 }
 

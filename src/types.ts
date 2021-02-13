@@ -85,7 +85,9 @@ export type state = {
     buffs: buff[]
 }
 
+export type viewTypes = 'intro' | 'starship' | 'improvements' | 'researches'
+
 export interface IPanelProps {
 	id: string,
-	go: (event: React.SyntheticEvent<EventTarget>) => void
+	go: (to: viewTypes) => void
 }

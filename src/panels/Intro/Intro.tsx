@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import View from '@vkontakte/vkui/dist/components/View/View'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
 import PanelHeaderBack from '@vkontakte/vkui/dist/components/PanelHeaderBack/PanelHeaderBack'
@@ -32,7 +33,7 @@ const Intro = ({ id, go }: IPanelProps) => {
 				alt: 'Космический корабль'
 			},
 			text: 'Спасибо за внимание!',
-			go: go,
+			go: () => go('starship'),
 			dataTo: 'starship',
 			buttonText: 'Поехали!'
 		},
@@ -52,26 +53,27 @@ const Intro = ({ id, go }: IPanelProps) => {
 
 
 	return (
-		<Panel id={id}>
-			<PanelHeader left={slideIndex !== 0 && <PanelHeaderBack onClick={prevSlide}/>}>Звездная Лихорадка</PanelHeader>
-			<Gallery
-				bullets="light"
-				style={{height: window.innerHeight - 53 }}
-				slideIndex={slideIndex}
-				onChange={slideIndex => setSlideIndex(slideIndex)}
-			>
-				{slides.map((slide, i) => (
-					<Slide
-						img={slide.img}
-						text={slide.text}
-						buttonText={slide.buttonText}
-						go={slide.go}
-						dataTo={slide.dataTo}
-						key={i}
-					/>
-				))}
-			</Gallery>
-		</Panel>
+		<View id={id} activePanel={id}>
+			<Panel id={id}>
+				<PanelHeader left={slideIndex !== 0 && <PanelHeaderBack onClick={prevSlide}/>}>Звездная Лихорадка</PanelHeader>
+				<Gallery
+					bullets="light"
+					style={{height: window.innerHeight - 53 }}
+					slideIndex={slideIndex}
+					onChange={slideIndex => setSlideIndex(slideIndex)}
+				>
+					{slides.map((slide, i) => (
+						<Slide
+							img={slide.img}
+							text={slide.text}
+							buttonText={slide.buttonText}
+							go={slide.go}
+							key={i}
+						/>
+					))}
+				</Gallery>
+			</Panel>
+		</View>
 	)
 }
 

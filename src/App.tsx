@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import View from '@vkontakte/vkui/dist/components/View/View'
 import '@vkontakte/vkui/dist/vkui.css'
 import Intro from './panels/Intro/Intro'
 import Map from './panels/Map/Map'
 import Starship from './panels/Starship/Starship'
 import Researches from './panels/Researches/Researches'
 import Improvements from './panels/Improvements/Improvements'
+import Epic from './components/Epic'
 import { tenSecondBonus, timer, fiveMinutesBoost } from './redux/actions'
 import { useDispatch } from 'react-redux'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('intro')
+	const [activeStory, setActiveStory] = useState('intro')
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -25,21 +25,16 @@ const App = () => {
 		}
 	}, [])
 
-
-	const go = (e: React.SyntheticEvent<EventTarget>) => {
-		if (e.currentTarget instanceof HTMLElement && e.currentTarget.dataset.to) {
-			setActivePanel(e.currentTarget.dataset.to)
-		}
-	}
+	const go = (to: string): void => setActiveStory(to)
 
 	return (
-		<View activePanel={activePanel}>
-			<Intro id='intro' go={go} />
-			<Starship id='starship' go={go} />
-			<Map id='map' go={go} />
+		<Epic go={go} activeStory={activeStory}>
+			<Intro id='intro' go={go}/>
+			<Starship id='starship' />
+			<Map id='map' go={go}/>
 			<Researches id='researches' go={go} />
 			<Improvements id='improvements' go={go} />
-		</View>
+		</Epic>
 	)
 }
 

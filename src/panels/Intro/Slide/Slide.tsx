@@ -9,18 +9,17 @@ interface slideProps {
 	},
 	buttonText?: string,
 	text: string,
-	go: (event: React.SyntheticEvent<EventTarget>) => void,
-	dataTo?: string
+	go: any,
 }
 
-const Slide = ({ img, buttonText, text, go, dataTo }: slideProps) => (
+const Slide = ({ img, buttonText, text, go }: slideProps) => (
 	<div className={styles.slide}>
 		<img className={styles.img} src={img.src} alt={img.alt} />
 		<p className={styles.text}>
 			{text}
 		</p>
 		<div className={styles.btnWrapper}>
-			<Button className={styles.btn} onClick={go} data-to={dataTo} size="xl">
+			<Button className={styles.btn} onClick={go} size="xl">
 				{buttonText || 'Далее'}
 			</Button>
 		</div>
