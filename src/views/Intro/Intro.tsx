@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import bridge from '@vkontakte/vk-bridge'
 import View from '@vkontakte/vkui/dist/components/View/View'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
@@ -33,7 +34,11 @@ const Intro = ({ id, go }: IPanelProps) => {
 				alt: 'Космический корабль'
 			},
 			text: 'Спасибо за внимание!',
-			go: () => go('starship'),
+			go: () => {
+				bridge.send("VKWebAppStorageSet", {"key": "sawIntro", "value": "true"})
+					.then(() => go('starship'))
+					.catch(e => console.log(e))
+			},
 			dataTo: 'starship',
 			buttonText: 'Поехали!'
 		},

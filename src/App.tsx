@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '@vkontakte/vkui/dist/vkui.css'
+import bridge from '@vkontakte/vk-bridge'
 import Intro from './views/Intro/Intro'
 import Map from './views/Map/Map'
 import Starship from './views/Starship/Starship'
@@ -14,6 +15,10 @@ const App = () => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
+		bridge.send('VKWebAppStorageGet', {'keys': ['sawIntro']})
+			.then(({keys}) => keys[0].value === 'true' && setActiveStory('starship'))
+			.catch(e => console.log(e))
+			
 		const timerInterval = setInterval(() => dispatch(timer()), 1000)
 		const tenSecondInterval = setInterval(() => dispatch(tenSecondBonus()), 10000)
 		const fiveMinutesInterval = setInterval(() => dispatch(fiveMinutesBoost()), 300000)
