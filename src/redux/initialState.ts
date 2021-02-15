@@ -70,7 +70,8 @@ export const initialState: state = {
         {
             name: 'Мобильный Хаббл',
             desc: 'Лучший телескоп в галактике прямо у вас на корабле!',
-            cost: 750000
+            cost: 750000,
+            dependencies: []
         },
     ],
     improvements: [

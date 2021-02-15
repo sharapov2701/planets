@@ -1,3 +1,4 @@
+import bridge from '@vkontakte/vk-bridge'
 import { actionCreator } from '../types'
 
 export const click: actionCreator = () => ({ type: 'CLICK' })
@@ -8,7 +9,7 @@ export const setTarget: actionCreator = coords => ({ type: 'SET_TARGET', payload
 
 export const buy: actionCreator = price => ({ type: 'BUY', payload: price })
 
-export const research: actionCreator = research => ({ type: 'RESEARCH', payload: research })
+export const doResearch: actionCreator = research => ({ type: 'RESEARCH', payload: research })
 
 export const timer: actionCreator = () => ({ type: 'TIMER' })
 
@@ -22,3 +23,5 @@ export const fiveMinutesBoost: actionCreator = () => {
         }, 3000)
     }
 }
+
+export const fetchProgress: actionCreator = (player) => ({ type: 'FETCH_PROGRESS', payload: player })

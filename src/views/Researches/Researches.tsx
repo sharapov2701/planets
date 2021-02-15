@@ -20,7 +20,7 @@ const Researches = ({ id, go }: IPanelProps) => {
 				<PanelHeader left={<PanelHeaderBack onClick={() => go('starship')} />}>Исследования</PanelHeader>
 				<Div className={styles.root} style={{ minHeight: window.innerHeight - 78 }}>
 					{researches.map((research, i) => (
-						<Research {...research} disabled={money < research.cost} researched={playerResearches.includes(research.name)} key={i} />
+						<Research researchData={research} disabled={money < research.cost} researched={playerResearches.includes(research.name)} key={i} />
 					))}
 				</Div>
 			</Panel>

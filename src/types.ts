@@ -6,7 +6,8 @@ type actionType =
     'RESEARCH' |
     'TIMER' |
     'TEN_SECOND_BONUS' |
-    'FIVE_MINUTES_BOOST'
+    'FIVE_MINUTES_BOOST' |
+    'FETCH_PROGRESS'
 
 export type action<T> = {
     type: actionType,
@@ -21,30 +22,48 @@ export type attribute = 'speed' | 'score'
 
 export type buffType = 'increase' | 'multiply'
 
-export type buff = {
-    name: string,
-    target: attribute,
-    type: buffType,
-    value: number
-}
-
 export type coords = {
     x: number,
     y: number
 }
 
-export type research = {
-    name: string,
-    desc: string,
-    cost: number,
-    dependencies?: string[]
+export type buffs =
+    'Ускорение 1 уровня' |
+    'Ускорение 2 уровня' |
+    'tenSecondBuffX2' |
+    'tenSecondBuffX3' |
+    'tenSecondBuffX4' |
+    'tenSecondBuffX5' |
+    'fiveMinutesBoost'
+
+export type buff = {
+    name: buffs,
+    target: attribute,
+    type: buffType,
+    value: number
 }
 
+export type researches = 
+    'Квантовые двигатели' |
+    'Минеральное топливо' |
+    'Мобильный Хаббл'
+
+export type research = {
+    name: researches,
+    desc: string,
+    cost: number,
+    dependencies: improvements[]
+}
+
+export type improvements =
+    'Ускорение 1 уровня' |
+    'Ускорение 2 уровня'
+
 export type improvement = {
-    name: string,
+    name: improvements,
     desc: string,
     buffs: buff[],
-    requirements: string[]
+    requirements: researches[]
 }
 
 export type starship = {
@@ -63,8 +82,8 @@ export type planet = {
 
 export type playerState = {
     money: number,
-    researches: string[],
-    improvements: improvement[],
+    researches: researches[],
+    improvements: improvements[],
     buffs: buff[],
     totalClicksCount: number,
     tenSecondClicks: number,

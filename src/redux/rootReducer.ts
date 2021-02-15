@@ -1,5 +1,5 @@
 import { initialState } from './initialState'
-import { state, action, buff } from '../types'
+import { state, action, buff, improvements } from '../types'
 import { increaseScore, multiplyScore } from './helpers'
 
 export const rootReducer = (state: state = initialState, action: action<any>): state => {
@@ -23,12 +23,14 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
             player.currentStarship.target = action.payload
             return { ...state, player }
 
-        case 'BUY':
-            player.money = player.money - action.payload
-            return { ...state, player }
-            
         case 'RESEARCH':
-            player.researches.push(action.payload)
+            const research = action.payload    
+            player.money -= research.cost
+            player.researches.push(research.name)
+            research.dependencies.forEach((dep: improvements) => {
+                player.improvements.push(dep)
+            })
+            
             return { ...state, player }
 
         case 'TIMER':
@@ -89,6 +91,9 @@ export const rootReducer = (state: state = initialState, action: action<any>): s
                     throw new Error('BuffError')
                 }
             }
+
+        case 'FETCH_PROGRESS':
+            return { ...state, player: action.payload }
 
         default:
             return { ...state }

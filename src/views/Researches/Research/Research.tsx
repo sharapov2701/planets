@@ -3,22 +3,19 @@ import cn from 'classnames'
 import icon from './research.png'
 import styles from './research.module.scss'
 import { useDispatch } from 'react-redux'
-import { buy, research } from '../../../redux/actions'
+import { doResearch } from '../../../redux/actions'
+import { research } from '../../../types'
 
 interface ResearchProps {
-    name: string,
-    desc: string,
-    cost: number,
+    researchData: research,
     disabled: boolean,
     researched: boolean
 }
 
-const Research = ({ name, desc, cost, disabled, researched }: ResearchProps) => {
+const Research = ({ researchData, disabled, researched }: ResearchProps) => {
     const dispatch = useDispatch()
-    const handleClick = () => {
-        dispatch(buy(cost))
-        dispatch(research(name))
-    }
+    const { name, desc, cost } = researchData
+    const handleClick = () => dispatch(doResearch(researchData))
 
     return (
         <div className={styles.research} onClick={!disabled && !researched ? handleClick : undefined}>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import View from '@vkontakte/vkui/dist/components/View/View'
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel'
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader'
@@ -12,16 +12,15 @@ import { state, IPanelProps } from '../../types'
 import * as styles from './improvements.module.scss'
 
 const Improvements = ({ id, go }: IPanelProps) => {
-	const fetchedImprovements = useSelector((state: state) => state.improvements)
+	const improvements = useSelector((state: state) => state.improvements)
 	const playerImprovements = useSelector((state: state) => state.player.improvements)
 	const playerResearches = useSelector((state: state) => state.player.researches)
-	const [improvements, setImprovements] = useState<JSX.Element[]>([])
 
-	useEffect(() => {
-		const processedImprovements = fetchedImprovements.map((improvement, i) => {
+	const elements = useMemo(() => {
+		const processedImprovements = improvements.map((improvement, i) => {
 			let available = false
 	
-			if (playerImprovements.includes(improvement)) {
+			if (playerImprovements.includes(improvement.name)) {
 				available = true
 			} else {
 				for (let j = 0; j < improvement.requirements.length; j++) {
@@ -41,8 +40,8 @@ const Improvements = ({ id, go }: IPanelProps) => {
 			/>
 		})
 
-		setImprovements(processedImprovements)
-	}, [fetchedImprovements, playerImprovements, playerResearches])
+		return processedImprovements
+	}, [improvements, playerImprovements, playerResearches])
 
 	return (
 		<View id={id} activePanel={id}>
@@ -52,7 +51,7 @@ const Improvements = ({ id, go }: IPanelProps) => {
 				</PanelHeader>
 
 				<Div className={styles.root} style={{ minHeight: window.innerHeight - 78 }}>
-					{improvements}
+					{elements}
 				</Div>
 			</Panel>
 		</View>
